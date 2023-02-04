@@ -1,0 +1,53 @@
+﻿Team Name/Project Title: ThriveToday
+
+
+This Weeks Leader: Henry Fan
+
+
+Members: Henry Fan (lead), Taylor Trinidad, Alan Luu, Jeremy Esch
+
+
+Project Description:
+A website where users can post various tips and techniques related to fitness and lifestyle stuff that promotes a healthier lifestyle. This can also include workouts, mental health affirmations or routines, and healthy study skills.
+
+
+Technologies: 
+Frontend: React/Create React App (Dev build tool), Tailwind and/or Material UI for styling
+        Backend: Java Spring Boot framework, PostgreSQL database
+
+
+Job Assignments: 
+Jeremy: Frontend/Project Setup
+Henry: Backend
+Taylor: Backend/UI Design
+Alan: Backend/Database
+
+
+Milestones: 
+By Next Week:
+* Become antiquated with the frameworks we will be using
+* Create GitHub repository and get familiar with using Git
+* Set up temporary backend/frontend hosting
+
+
+Milestone 1: researching tech stack - python, html, css, javascript, SQLite, Node JS/express and PERN 
+Milestone 2: exploring various technologies and working through their tutorials
+Milestone 3: getting acquainted with git 
+Milestone 4: begin drafting design 
+Milestone 5: brainstorm use cases 
+Milestone 6: Set up temp backend/frontend hosting
+
+
+What has been accomplished so far: 
+* Created github repository
+* Come up with job assignments
+* General understanding of project vision and technology stack
+
+
+What are you looking forward to this semester in this course: 
+* Working and learning together 
+* Designing an api and website from scratch
+* Learning advanced deployment methods
+
+
+Github: https://github.com/Jesch101/ThriveToday
