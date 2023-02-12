@@ -1,0 +1,66 @@
+﻿Team Name/Project Title: ThriveToday
+
+
+This Weeks Leader: Taylor Trinidad
+
+
+Members: Taylor Trinidad (lead), Alan Luu, Jeremy Esch, Henry Fan 
+
+
+Project Description:
+A website where users can post various tips and techniques related to fitness and lifestyle stuff that promotes a healthier lifestyle. This can also include workouts, mental health affirmations or routines, and healthy study skills.
+
+
+Technologies: 
+Frontend: React/Create React App (Dev build tool), Material UI for styling, Axios for API requests
+Backend: NodeJS and Express JS, Postgres Database
+
+
+Job Assignments: 
+Jeremy: Frontend/Project Setup
+Henry: Backend
+Taylor: Backend/UI Design
+Alan: Backend/Database
+
+
+Milestones: 
+Week 3 (Next week): Finalized UI design, features list, database schema, learn about tech stack
+Week 4: Begin coding frontend and backend
+Week 5: Start testing API and set up local hosting
+Week 6: Connect database to backend and start on responsive frontend design
+Week 7: Integrate frontend with backend through Axios API request library
+Week 8: Prototype
+
+
+Tasks Accomplished Per member: 
+* Jeremy
+   * UI mockup, set up front end, Git setup
+   * Next tasks: 
+      * Front end development
+* Henry
+   * Working through “Build a Rest Api with NodeJS (JavaScript), Express, and PostgreSQL” tutorial
+   * Next tasks:
+      * Familiarizing with backend technology 
+* Taylor
+   * Logo design, website UI
+   * Next tasks:
+      * Continue developing UI, familiarizing with backend technology 
+* Alan
+   * Set up remote database instance
+   * Next tasks:
+      * Working with database and familiarizing with backend
+
+
+Items mis-presented by your partner team: 
+None
+
+
+Feedback from team TreeHouse:
+* Could implement a progress feature and badge system 
+   * We like this idea and will consider implementing something like a ‘reward system or progression view feature as users go through different plans 
+* Think about what makes this website different from other self help websites? 
+   * Very customizable format for people to make plans about whatever they want, not limited to just 1 area 
+   * Easily search for plans using tags
+
+
+Github: https://github.com/Jesch101/ThriveToday
