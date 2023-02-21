@@ -3,6 +3,7 @@ const express = require('express');
 const aboutroute = require('./src/routes/aboutus-routes');
 const popplansroute = require('./src/routes/popplans-routes');
 const loginroute = require('./src/routes/login-routes');
+const dbusersroute = require('./src/routes/dbusers-routes');
 
 const app = express();
 const port = 3000;
@@ -16,5 +17,6 @@ app.get("/", (req, res) => {
 app.use('/aboutus', aboutroute); 
 app.use('/popularplans', popplansroute);
 app.use('/login', loginroute);
+app.use('/api/users', dbusersroute);
 
 app.listen(port, () => console.log(`app is listening on port ${port}`));
