@@ -3,13 +3,9 @@ import { CssBaseline } from "@mui/material";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Error from "./pages/Error";
+import rootStyles from "./themes/styles/rootStyles";
 
 function App() {
-  const rootStyles = {
-    height: "100vh",
-    minHeight: "100vh",
-    backgroundColor: "white",
-  };
   return (
     <>
       <CssBaseline />
