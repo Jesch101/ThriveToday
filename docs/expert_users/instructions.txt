@@ -1,0 +1,12 @@
+1. Download NodeJS from https://nodejs.org/en/download/ 
+
+2. In your terminal, git clone our repository with the following command:
+git clone https://github.com/Jesch101/ThriveToday.git
+
+3. Change to the "frontend" directory under ThriveToday/dev/frontend/
+
+4. Run "npm i" under the frontend directory to install the necessary node packages.
+
+5. Run "npm start" to run the create-react-app start script.
+
+6. The React project should open up to your local host http://localhost:3000/ .
