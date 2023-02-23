@@ -3,6 +3,7 @@ import { Box, ThemeProvider, Typography, styled } from "@mui/material";
 import theme from "../themes/theme";
 import logo from "../assets/logo.svg";
 import { Link } from "react-router-dom";
+import CenterBox from "../components/CenterBox";
 
 const NavItem = styled(Typography)`
   text-decoration: none;
@@ -36,7 +37,7 @@ function Navbar() {
         sx={{
           position: "sticky",
           overflow: "hidden",
-          paddingTop: `${theme.spacing(3)}`,
+          paddingTop: `${theme.spacing(6)}`,
         }}>
         <Box
           className="container"
@@ -44,12 +45,7 @@ function Navbar() {
             margin: "0 auto",
             width: "80%",
           }}>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}>
+          <CenterBox>
             <Link
               to="/"
               style={{
@@ -57,7 +53,7 @@ function Navbar() {
                 color: "inherit",
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                justifyContent: "flex-start",
                 flex: "1",
               }}>
               <img
@@ -78,8 +74,8 @@ function Navbar() {
               className="menu-items"
               sx={{
                 display: "flex",
-                justifyContent: "center",
                 alignItems: "center",
+                justifyContent: "center",
                 flex: "1.5",
               }}>
               <Box px={theme.spacing(5)}>
@@ -104,7 +100,7 @@ function Navbar() {
                 </Link>
               </Box>
             </Box>
-          </Box>
+          </CenterBox>
         </Box>
       </Box>
     </ThemeProvider>
