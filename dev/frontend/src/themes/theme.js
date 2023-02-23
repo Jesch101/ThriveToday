@@ -11,6 +11,7 @@ const theme = createTheme({
     },
   },
   typography: {
+    color: "#333333",
     button: {
       textTransform: "none",
     },

@@ -3,7 +3,7 @@ import { CssBaseline } from "@mui/material";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Error from "./pages/Error";
-import rootStyles from "./themes/styles/rootStyles";
+import { rootStyles, defaultStyles } from "./themes/styles/styles";
 
 function App() {
   return (
@@ -11,11 +11,13 @@ function App() {
       <CssBaseline />
       <Router>
         <div style={rootStyles}>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="*" element={<Error />} />
-          </Routes>
+          <div style={defaultStyles}>
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="*" element={<Error />} />
+            </Routes>
+          </div>
         </div>
       </Router>
     </>
