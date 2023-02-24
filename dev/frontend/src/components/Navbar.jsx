@@ -37,7 +37,7 @@ function Navbar() {
         sx={{
           position: "sticky",
           overflow: "hidden",
-          paddingTop: `${theme.spacing(6)}`,
+          paddingTop: `${theme.spacing(3)}`,
         }}>
         <Box
           className="container"
