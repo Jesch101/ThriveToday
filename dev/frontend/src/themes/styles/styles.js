@@ -2,7 +2,6 @@ import backgroundImage from "../../assets/backgroundImg.svg";
 
 export const rootStyles = {
   width: "100%",
-  minHeight: "100vh",
 };
 
 export const defaultStyles = {
