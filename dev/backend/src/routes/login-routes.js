@@ -1,9 +1,26 @@
-const { Router } = require("express"); // Using the Express router
+const express = require('express');
+const router = express.Router();
 
-const router = Router(); // Router object
+router.post('/', (req, res) => {
+    const username = "admin";
+    const password = "password";
 
-router.get("/", (req,res) => {
-    res.send("Log in bay be");
+    if (req.body.username === username && req.body.password === password) {
+        req.session.username = username;
+        req.session.password = password;
+        res.status(200).send("Login success");
+    } else {
+        res.status(401).send('Invalid username or password');
+    }
 });
 
-module.exports = router; // Export router and import to server.js
+router.get('/test', (req, res) => {
+    console.log(req.session);
+    res.json(req.session);
+});
+
+router.get('/logout', (req, res) => {
+    req.session.destroy();
+});
+
+module.exports = router;
