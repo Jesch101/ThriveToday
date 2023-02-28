@@ -1,24 +1,9 @@
-const {Router} = require("express");
-const {Pool} = require("pg");
+const { Router } = require("express");
+const controller = require("./controller");
 
-const router = Router();
-const pool = new Pool({
-    user: '',
-    host: '',
-    database: '',
-    password: '',
-    port: 5432
-});
+const router = Router(); // Router object
 
-router.get('/', (req, res) => {
-    pool.query("SELECT * FROM users", (err, db) => {
-        if (err) {
-            console.error(err);
-            res.send("Query failed");
-            return;
-        }
-        res.json({users: db.rows});
-    });
-});
+router.get("/", controller.getUsers);
+router.get("/:id", controller.getUserById);
 
 module.exports = router;
