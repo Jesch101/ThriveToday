@@ -1,21 +1,22 @@
 import React from "react";
-import { Box, Typography, ThemeProvider } from "@mui/material";
+import { Box, Typography, ThemeProvider, Container } from "@mui/material";
 import theme from "../themes/theme";
 
 function Footer() {
   return (
     <ThemeProvider theme={theme}>
       <Box
+        component="footer"
         sx={{
-          width: "calc(100% + 2rem)",
+          py: 3,
+          px: 2,
+          mt: "auto",
           backgroundColor: "black",
-          color: "#F8FAFC",
+          color: "white",
         }}>
-        <Box p={theme.spacing(6)}>
-          <Typography variant="body1">
-            SJSU CS 161 Project - Team "ThriveToday"
-          </Typography>
-        </Box>
+        <Container maxWidth="sm">
+          <Typography variant="body1">CS 161 Team ThriveToday</Typography>
+        </Container>
       </Box>
     </ThemeProvider>
   );
