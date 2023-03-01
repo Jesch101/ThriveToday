@@ -1,3 +1,4 @@
+FRONTEND TESTING
 1. Download NodeJS from https://nodejs.org/en/download/ 
 
 2. In your terminal, git clone our repository with the following command:
@@ -10,3 +11,15 @@ git clone https://github.com/Jesch101/ThriveToday.git
 5. Run "npm start" to run the create-react-app start script.
 
 6. The React project should open up to your local host http://localhost:3000/ .
+
+BACKEND TESTING 
+1. Change to the "backend" directory under ThriveToday/dev/backend/
+
+2. Run "npm i" under the backend directory to install the necessary node packages.
+
+3. Run "node server.js" 
+
+4. Go to your browser and type in the address: localhost:3000
+
+5. Test the different endpoints defined in server.js (such as localhost:3000/aboutus)
+   Please note that some routes (such as api/users) will not be testable without database credentials
