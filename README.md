@@ -7,7 +7,7 @@
 **Project title:** ThriveToday
 
 # Project description
-A website where users can post various tips and techniques related to fitness and lifestyle stuff that promotes a healthier lifestyle. This can also include workouts, mental health affirmations or routines, and healthy study skills.
+Our website is for learners who realize a holistic approach to living a healthy and wealthy life requires habits that support sustained learning and growth. Our application will reduce the psychological and cognitive load to onboard learners, our users, with these life skills for success in education and beyond. We focus our efforts in providing value for college students because we understand we’re students ourselves. 
 
 # Technologies
 **Frontend:** React.js/Create React App (Dev build tool), Material UI for styling, Axios for API requests
