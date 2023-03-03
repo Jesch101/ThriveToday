@@ -1,8 +1,7 @@
 const { Router } = require("express"); // Using the Express router
 const controller = require("./controller");
 
-const router = Router(); // Router object
-
+const router = Router(); 
 
 router.get("/", controller.getPlans);
 
