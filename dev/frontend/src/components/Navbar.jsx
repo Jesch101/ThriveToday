@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Box, ThemeProvider, Typography, styled } from "@mui/material";
 import theme from "../themes/theme";
 import logo from "../assets/logo.svg";
 import { Link } from "react-router-dom";
 import CenterBox from "../components/CenterBox";
+import UserContext from "../context/userContext";
 
 const NavItem = styled(Typography)`
   text-decoration: none;
@@ -31,6 +32,7 @@ const NavItem = styled(Typography)`
 `;
 
 function Navbar() {
+  const user = useContext(UserContext);
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -93,11 +95,15 @@ function Navbar() {
                 </Link>
               </Box>
               <Box ml="auto" pr={theme.spacing(5)}>
-                <Link
-                  to="/login"
-                  style={{ textDecoration: "none", color: "inherit" }}>
-                  <NavItem>Sign In</NavItem>
-                </Link>
+                {user?.userInfoContext?.username ? (
+                  <Box> {user.userInfoContext.username} </Box>
+                ) : (
+                  <Link
+                    to="/login"
+                    style={{ textDecoration: "none", color: "inherit" }}>
+                    <NavItem>Sign In</NavItem>
+                  </Link>
+                )}
               </Box>
             </Box>
           </CenterBox>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../themes/theme";
@@ -12,8 +12,11 @@ import {
   Typography,
   Container,
 } from "@mui/material";
+import UserContext from "../context/userContext";
+import userModel from "../context/userModel";
 
 export default function SignUp() {
+  const user = useContext(UserContext);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -21,6 +24,7 @@ export default function SignUp() {
       email: data.get("email"),
       password: data.get("password"),
     });
+    // user.setUserInfoContext({ ...user.userInfoContext, username: "Jeremy" });
   };
 
   return (
