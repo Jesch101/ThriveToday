@@ -4,6 +4,10 @@ const controller = require("./controller");
 const router = Router(); 
 
 router.get("/", controller.getUsers);
-router.get("/:id", controller.getUserById);
+router.get("/:userid", controller.getUserById);
+
+router.put("/:userid", controller.updateUser);
+
+router.delete("/:userid", controller.deleteUser);
 
 module.exports = router;

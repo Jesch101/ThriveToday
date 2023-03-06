@@ -14,7 +14,7 @@ const getUsers = (req, res) => {
 }; 
 
 const getUserById = (req, res) => {
-    const id = parseInt(req.params.id);
+    const id = parseInt(req.params.userid);
     pool.query(queries.getUserById, [id], (error, results) => {
         if (error) throw error;
         res.status(200).json(results.rows); 
@@ -41,6 +41,15 @@ const addUser = (req, res) => {
     });
 }
 
+const updateUser = (req, res) => {
+    const id = parseInt(req.params.id);
+
+};
+
+const deleteUser = (req, res) => {
+
+};
+
 const getPlans = (req, res) => {
     pool.query(queries.getPlans, (error, results) => {
         if (error) throw error;
@@ -57,11 +66,54 @@ const getPlanById = (req, res) => {
     });
 }; 
 
+const addPost = (req, res) => {
+    const {userid, post_title, datecreated, tags} = req.body;
+
+    pool.query(queries.addPost, [userid, post_title, datecreated, tags], (error, results) => {
+        if (error) throw error; 
+        res.status(201).send("Post added successfully"); 
+        console.log("Post created");
+    });
+};
+
+const addTopic = (req, res) => {
+    const postid = parseInt(req.params.postid);
+    const {topic_title, content} = req.body;
+    console.log("Adding topic.....")
+
+    pool.query(queries.addTopic, [postid, topic_title, content], (error, results) => {
+        if (error) throw error; 
+        res.status(201).send("Topic added successfully"); 
+        console.log("Topic created");
+    });
+    
+};
+
+const addSubtopic = (req, res) => {
+    const topicid = parseInt(req.params.topicid);
+
+    const {subtopic_title, content} = req.body;
+    console.log("Adding subtopic.....")
+
+    pool.query(queries.addSubtopic, [topicid, subtopic_title, content], (error, results) => {
+        if (error) throw error; 
+        res.status(201).send("Subtopic added successfully"); 
+        console.log("Subtopic created");
+    });
+};
+
+
+
 module.exports = {
     getUsers,
     getUserById,
     addUser,
+    updateUser,
+    deleteUser,
+
     getPlans,
     getPlanById,
-   
+    addPost,
+    addTopic,
+    addSubtopic,
 };
