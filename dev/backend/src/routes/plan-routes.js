@@ -1,11 +1,12 @@
 const { Router } = require("express"); // Using the Express router
-const controller = require("./controller");
+const controller = require("../controller");
 
 const router = Router(); 
 
 router.get("/", controller.getPlans);
 
 router.get("/:postid", controller.getPlanById); // Should show all post details
+router.put("/:postid/like", controller.likePost);
 
 router.post("/create", controller.addPost); // Route names can be changed but keep /:postid/:topicid structure 
 router.post("/create/:postid", controller.addTopic);
