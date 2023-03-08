@@ -23,11 +23,11 @@ app.get("/", (req, res) => {
     res.send("Hello ThriveToday:)");
 });
 
-app.use('/aboutus', aboutroute); 
-app.use('/popularplans', popplansroute);
-app.use('/plans', planroute);
-app.use('/login', loginroute);
-app.use('/signup', signuproute)
+app.use('/api/aboutus', aboutroute); 
+app.use('/api/popularplans', popplansroute);
+app.use('/api/plans', planroute);
+app.use('/api/login', loginroute);
+app.use('/api/signup', signuproute)
 app.use('/api/users', dbusersroute);
 
 app.listen(port, () => console.log(`app is listening on port ${port}`));
