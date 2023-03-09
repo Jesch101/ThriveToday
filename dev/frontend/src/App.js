@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { CssBaseline } from "@mui/material";
 import Navbar from "./components/Navbar";
@@ -14,30 +14,30 @@ import UserContext from "./context/userContext";
 
 function App() {
   const [userInfoContext, setUserInfoContext] = useState(userModel);
+  useEffect(() => {
+    console.log("userInfoContext updated:", userInfoContext);
+  }, [userInfoContext]);
   return (
     <>
       <CssBaseline />
-      <Router>
-        <div style={rootStyles}>
-          <div style={defaultStyles}>
-            <Navbar />
-            <UserContext.Provider
-              value={{
-                userInfoContext: userInfoContext,
-                setUserInfoContext: setUserInfoContext,
-              }}>
+      <UserContext.Provider value={{ userInfoContext, setUserInfoContext }}>
+        <Router>
+          <div style={rootStyles}>
+            <div style={defaultStyles}>
+              <Navbar />
+
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/login" element={<SignIn />} />
-                <Route path="/popular-pages" element={<PopularPages />} />
+                <Route path="/popular-plans" element={<PopularPages />} />
                 <Route path="/sign-up" element={<SignUp />} />
                 <Route path="*" element={<Error />} />
               </Routes>
-            </UserContext.Provider>
+            </div>
           </div>
-        </div>
-      </Router>
+        </Router>
+      </UserContext.Provider>
     </>
   );
 }

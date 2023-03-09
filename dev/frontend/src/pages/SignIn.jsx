@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../themes/theme";
@@ -14,15 +14,25 @@ import {
   Container,
   Link,
 } from "@mui/material";
+import UserContext from "../context/userContext";
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn() {
+  const navigate = useNavigate();
+  const user = useContext(UserContext);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+    // console.log({
+    //   email: data.get("email"),
+    //   password: data.get("password"),
+    // });
+    user.setUserInfoContext({
+      ...user.userInfoContext,
+      username: data.get("email"),
     });
+    navigate("/");
   };
 
   return (
@@ -51,7 +61,7 @@ export default function SignIn() {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Username"
               name="email"
               autoComplete="email"
               autoFocus

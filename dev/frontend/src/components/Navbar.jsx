@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box, ThemeProvider, Typography, styled } from "@mui/material";
 import theme from "../themes/theme";
 import logo from "../assets/logo.svg";
@@ -32,7 +32,14 @@ const NavItem = styled(Typography)`
 `;
 
 function Navbar() {
-  const user = useContext(UserContext);
+  const { userInfoContext } = useContext(UserContext);
+  const [username, setUsername] = useState(null);
+
+  useEffect(() => {
+    setUsername(userInfoContext?.username);
+    console.log(userInfoContext);
+  }, [userInfoContext]);
+
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -95,8 +102,8 @@ function Navbar() {
                 </Link>
               </Box>
               <Box ml="auto" pr={theme.spacing(5)}>
-                {user?.userInfoContext?.username ? (
-                  <Box> {user.userInfoContext.username} </Box>
+                {username ? (
+                  <NavItem>{username}</NavItem>
                 ) : (
                   <Link
                     to="/login"

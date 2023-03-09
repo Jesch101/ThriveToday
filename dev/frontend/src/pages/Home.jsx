@@ -50,9 +50,11 @@ function Home() {
                   </Typography>
                 </Box>
                 <Box pt={theme.spacing(4)}>
-                  <Button variant="contained" size="large">
-                    Get Started
-                  </Button>
+                  <Link to="/sign-up" style={{ textDecoration: "none" }}>
+                    <Button variant="contained" size="large">
+                      Get Started
+                    </Button>
+                  </Link>
                 </Box>
               </Box>
             </Grid>

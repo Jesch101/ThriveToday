@@ -1,5 +1,5 @@
 const userModel = {
-  username: "",
+  username: null,
 };
 
 export default userModel;
