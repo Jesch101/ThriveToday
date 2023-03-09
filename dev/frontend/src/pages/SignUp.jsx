@@ -12,11 +12,13 @@ import {
   Typography,
   Container,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import UserContext from "../context/userContext";
-import userModel from "../context/userModel";
 
 export default function SignUp() {
+  const navigate = useNavigate();
   const user = useContext(UserContext);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -24,7 +26,9 @@ export default function SignUp() {
       email: data.get("email"),
       password: data.get("password"),
     });
-    // user.setUserInfoContext({ ...user.userInfoContext, username: "Jeremy" });
+
+    user.setUserInfoContext({ ...user.userInfoContext, username: "Jeremy" });
+    navigate("/");
   };
 
   return (
