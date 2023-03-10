@@ -1,3 +1,4 @@
+const bcrypt = require("bcrypt");
 const pool = require("../db");
 const queries = require("./queries");
 
@@ -12,48 +13,52 @@ const getUsers = (req, res) => {
     });
 };
 
-const getUserById = (req, res) => {
+const getUserById = async (req, res) => {
     const id = parseInt(req.params.userid);
-    pool.query(queries.getUserById, [id], (error, results) => {
-        if (error) throw error;
-        res.status(200).json(results.rows);
-    });
+    try {
+        const {rows} = await pool.query(queries.getUserById, [id]);
+        res.status(200).json(rows);
+    } catch (e) {
+        throw e;
+    }
 };
 
-const addUser = (req, res) => {
+//Sign up user
+const addUser = async (req, res) => {
     const { firstname, lastname, email, username, password } = req.body;
+    const MIN_PASSWORD_LENGTH = 5;
 
-    pool.query(queries.checkEmailExists, [email], (error, results) => {
-        if (results.rows.length) {
-            res.send("Email already exists.");
-        }
-        else if(password.length < 5){
-            console.log("Password = " + password);
-            res.send("Password is too short.");
-        }
-        // Add username check
-        else{
-            pool.query(queries.addUser, [firstname, lastname, email, username, password], (error, results) => {
-                if (error) throw error; 
-                res.status(201).send("User added successfully"); 
-                console.log("User created");
-        })}
-    });
+    const {rows: emailRows} = await pool.query(queries.checkEmailExists, [email]);
+    if (emailRows.length) {
+        res.status(400).send("Email already exists.");
+        return;
+    } else if (password.length < MIN_PASSWORD_LENGTH) {
+        res.status(400).send("Password is too short.");
+        return;
+    }
+
+    const hash = await bcrypt.hash(password, 12);
+    try {
+        await pool.query(queries.addUser, [firstname, lastname, email, username, hash]);
+        res.status(201).send("User added successfully");
+    } catch (e) {
+        res.status(500).send("There was a problem adding the user to the database");
+    }
 }
 
-const updateUsername = (req, res) => {
+const updateUsername = async (req, res) => {
 
 };
 
-const updatePassword = (req, res) => {
+const updatePassword = async (req, res) => {
 
 };
 
-const updateEmail = (req, res) => {
+const updateEmail = async (req, res) => {
 
 };
 
-const deleteUser = (req, res) => {
+const deleteUser = async (req, res) => {
 
 };
 

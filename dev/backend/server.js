@@ -1,3 +1,4 @@
+const cors = require("cors");
 const express = require('express');
 const session = require('express-session');
 
@@ -12,6 +13,7 @@ const signuproute = require('./src/routes/signup-routes');
 const app = express();
 const port = 3000;
 
+app.use(cors());
 app.use(express.json());
 app.use(session({
     secret: "secret_key",
