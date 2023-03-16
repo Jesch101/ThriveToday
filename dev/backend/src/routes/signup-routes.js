@@ -1,8 +1,8 @@
 const { Router } = require("express"); // Using the Express router
-const controller = require("../controller");
+const { addUser } = require("../controllers/userController");
 
-const router = Router(); 
+const router = Router();
 
-router.post("/", controller.addUser);
+router.post("/", addUser);
 
 module.exports = router; // Export router and import to server.js

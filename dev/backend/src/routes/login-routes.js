@@ -1,39 +1,16 @@
-const bcrypt = require("bcrypt");
-const express = require('express');
-const pool = require("../../db");
-const queries = require("./../queries");
+const express = require("express");
 const router = express.Router();
 
-router.post('/', async (req, res) => {
-    console.log(req.body);
-    const {username, password} = req.body;
-    console.log(username);
+const {
+  postLogin,
+  getTest,
+  postLogout,
+} = require("../controllers/loginController");
 
-    const {rows: userInfo} = await pool.query(queries.getUserByUsername, [username]);
-    console.log(userInfo);
-    if (!userInfo.length) {
-        res.status(401).send('Invalid username or password');
-        return;
-    }
+router.post("/", postLogin);
 
-    const passwordValid = await bcrypt.compare(password, userInfo[0].password);
-    if (!passwordValid) {
-        res.status(401).send('Invalid username or password');
-        return;
-    }
+router.get("/test", getTest);
 
-    req.session.username = username;
-    req.session.password = password;
-    res.status(200).send("Login success");
-});
-
-router.get('/test', (req, res) => {
-    console.log(req.session);
-    res.json(req.session);
-});
-
-router.get('/logout', (req, res) => {
-    req.session.destroy();
-});
+router.post("/logout", postLogout);
 
 module.exports = router;
