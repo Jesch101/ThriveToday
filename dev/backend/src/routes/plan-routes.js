@@ -1,15 +1,21 @@
 const { Router } = require("express"); // Using the Express router
-const controller = require("../controller");
+const {
+  getPlans,
+  getPlanById,
+  likePost,
+  addPost,
+  addTopic,
+  addSubtopic,
+} = require("../controllers/planController");
+const router = Router();
 
-const router = Router(); 
+router.get("/", getPlans);
 
-router.get("/", controller.getPlans);
+router.get("/:postid", getPlanById); // Should show all post details
+router.put("/:postid/like", likePost);
 
-router.get("/:postid", controller.getPlanById); // Should show all post details
-router.put("/:postid/like", controller.likePost);
-
-router.post("/create", controller.addPost); // Route names can be changed but keep /:postid/:topicid structure 
-router.post("/create/:postid", controller.addTopic);
-router.post("/create/:postid/:topicid", controller.addSubtopic);
+router.post("/create", addPost); // Route names can be changed but keep /:postid/:topicid structure
+router.post("/create/:postid", addTopic);
+router.post("/create/:postid/:topicid", addSubtopic);
 
 module.exports = router; // Export router and import to server.js

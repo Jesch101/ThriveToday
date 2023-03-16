@@ -6,3 +6,7 @@ const axiosInstance = axios.create({
   baseURL: baseURL,
   timeout: 30000,
 });
+
+axiosInstance.defaults.withCredentials = true;
+
+export default axiosInstance;
