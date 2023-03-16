@@ -7,10 +7,12 @@ const {
   postLogout,
 } = require("../controllers/loginController");
 
+const { requireLogin } = require("../middleware/authMiddleware");
+
 router.post("/", postLogin);
 
 router.get("/test", getTest);
 
-router.post("/logout", postLogout);
+router.post("/logout", requireLogin, postLogout);
 
 module.exports = router;
