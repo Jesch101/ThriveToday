@@ -8,14 +8,17 @@ const {
   addUser,
 } = require("../controllers/userController");
 
+const { requireLogin } = require("../middleware/authMiddleware");
+
 const router = Router();
 
 router.get("/", getUsers);
 router.get("/:userid", getUserById);
 
-router.put("/update-username", updateUsername);
-router.put("/update-password", updatePassword);
-router.put("/add-user", addUser);
+router.put("/update-username", requireLogin, updateUsername);
+router.put("/update-password", requireLogin, updatePassword);
+
+router.post("/add-user", addUser);
 // router.put("/:userid", updateUsername);
 
 router.delete("/:userid", deleteUser);

@@ -25,7 +25,7 @@ const getPlanById = asyncHandler(async (req, res) => {
 
 // @desc    Add a post
 // @route   POST /api/plans/create
-// @access
+// @access  Private
 const addPost = asyncHandler(async (req, res) => {
   // future: userid = req.header;
   const { userid, post_title, datecreated, tags } = req.body;
@@ -43,7 +43,7 @@ const addPost = asyncHandler(async (req, res) => {
 
 // @desc    Add a post topic
 // @route   POST /api/plans/create/:postid
-// @access  Public
+// @access  Private
 const addTopic = asyncHandler(async (req, res) => {
   const postid = parseInt(req.params.postid);
   const { topic_title, content } = req.body;
@@ -62,7 +62,7 @@ const addTopic = asyncHandler(async (req, res) => {
 
 // @desc    Add a post subtopic
 // @route   POST /api/plans/create/:postid/:topicid
-// @access  Public
+// @access  Private
 const addSubtopic = asyncHandler(async (req, res) => {
   const topicid = parseInt(req.params.topicid);
 
@@ -82,7 +82,7 @@ const addSubtopic = asyncHandler(async (req, res) => {
 
 // @desc    Like a post
 // @route   PUT /api/plans/:postid/like
-// @access  Public
+// @access  Private
 const likePost = asyncHandler(async (req, res) => {
   // Check if post is in users likes
   // IF found: remove it from the users likes, decrease post like count -1
