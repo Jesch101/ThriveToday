@@ -84,13 +84,17 @@ const addSubtopic = asyncHandler(async (req, res) => {
 // @route   PUT /api/plans/:postid/like
 // @access  Private
 const likePost = asyncHandler(async (req, res) => {
-  // Check if post is in users likes
-  // IF found: remove it from the users likes, decrease post like count -1
-  // IF NOT found: append to end of users likes, increase post like count +1
+  
   const postid = parseInt(req.params.postid);
-  //const userid = req.body;
-  pool.query(queries.getUserLiked, [userid], (error, results) => {
-    console.log(results);
+  req.session.userID = userInfo[0].userid;
+  
+  const likes = await pool.query(queries.getUsersLikedPosts, [userid], (error, results) => {
+    if (likes.length) { // If user has liked this post, remove from likes
+      pool.query(queries.unlikePost, [userid, postid]);
+    }
+    else { // User has not liked the post, add the post as liked
+      pool.query(queries.likePost, [userid, postid]);
+    } 
   });
 });
 
