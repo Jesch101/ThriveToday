@@ -11,6 +11,7 @@ import CenterBox from "../components/CenterBox";
 import theme from "../themes/theme";
 import HoverCard from "../components/HoverCard";
 import { Link } from "react-router-dom";
+import useUserInfo from "../hooks/useUserInfo";
 
 const LinkStyles = {
   color: "inherit",
@@ -18,6 +19,7 @@ const LinkStyles = {
 };
 
 function Home() {
+  console.log(useUserInfo(2));
   return (
     <ThemeProvider theme={theme}>
       <Box

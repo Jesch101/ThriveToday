@@ -25,6 +25,7 @@ const postLogin = asyncHandler(async (req, res) => {
 
   req.session.loggedIn = true;
   req.session.userID = userInfo[0].userid;
+  console.log(req.session);
 
   res.status(200).send("Login success");
 });
