@@ -24,9 +24,14 @@ const getUserById = asyncHandler(async (req, res) => {
   const id = parseInt(req.params.userid);
   try {
     const { rows } = await pool.query(queries.getUserById, [id]);
-    res.status(200).json(rows);
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const { password, ...userData } = rows[0];
+    res.status(200).json(userData);
   } catch (e) {
-    throw e;
+    console.error(e);
+    res.status(500).json({ message: "Server error" });
   }
 });
 

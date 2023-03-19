@@ -12,7 +12,12 @@ const { errorHandler } = require("./src/middleware/errorMiddleware");
 const app = express();
 const port = process.env.port || 8000;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
