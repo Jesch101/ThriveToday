@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../themes/theme";
@@ -16,23 +16,48 @@ import {
 } from "@mui/material";
 import UserContext from "../context/userContext";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../axios";
 
 export default function SignIn() {
   const navigate = useNavigate();
   const user = useContext(UserContext);
+  const initialFormData = Object.freeze({
+    username: "",
+    password: "",
+  });
+
+  const [formData, setFormData] = useState(initialFormData);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      // Trimming any whitespace
+      [e.target.name]: e.target.value.trim(),
+    });
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // console.log({
-    //   email: data.get("email"),
-    //   password: data.get("password"),
-    // });
-    user.setUserInfoContext({
-      ...user.userInfoContext,
-      username: data.get("email"),
-    });
-    navigate("/");
+    if (formData.username && formData.password) {
+      axiosInstance
+        .post(`/login`, {
+          username: formData.username,
+          password: formData.password,
+        })
+        .then((res) => {
+          //TODO make res data into user context
+          user.setUserInfoContext({
+            ...user.userInfoContext,
+            username: formData.username,
+          });
+          navigate("/");
+        })
+        .catch((err) => {
+          console.error(err);
+          let errorBody = err.response;
+          return Promise.resolve(errorBody);
+        });
+    }
   };
 
   return (
@@ -62,9 +87,9 @@ export default function SignIn() {
               fullWidth
               id="email"
               label="Username"
-              name="email"
-              autoComplete="email"
+              name="username"
               autoFocus
+              onChange={handleChange}
             />
             <TextField
               margin="normal"
@@ -74,7 +99,7 @@ export default function SignIn() {
               label="Password"
               type="password"
               id="password"
-              autoComplete="current-password"
+              onChange={handleChange}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
