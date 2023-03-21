@@ -37,7 +37,6 @@ function Navbar() {
 
   useEffect(() => {
     setUsername(userInfoContext?.username);
-    console.log(userInfoContext);
   }, [userInfoContext]);
 
   return (

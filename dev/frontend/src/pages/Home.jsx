@@ -19,7 +19,7 @@ const LinkStyles = {
 };
 
 function Home() {
-  console.log(useUserInfo(2));
+  useUserInfo(2);
   return (
     <ThemeProvider theme={theme}>
       <Box

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../themes/theme";
@@ -14,21 +14,51 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../context/userContext";
+import axiosInstance from "../axios";
 
 export default function SignUp() {
   const navigate = useNavigate();
   const user = useContext(UserContext);
 
+  const initialFormData = Object.freeze({
+    firstname: "",
+    lastname: "",
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const [formData, setFormData] = useState(initialFormData);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      // Trimming any whitespace
+      [e.target.name]: e.target.value.trim(),
+    });
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-
-    user.setUserInfoContext({ ...user.userInfoContext, username: "Jeremy" });
-    navigate("/");
+    if (Object.values(formData).every((val) => val)) {
+      axiosInstance
+        .post(`/users/add-user`, {
+          firstname: formData.firstname,
+          lastname: formData.lastname,
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+        })
+        .then((res) => {
+          console.log("Success (?)");
+          console.log(res.data);
+        })
+        .catch((err) => {
+          let errorBody = err.response;
+          console.log(errorBody.data);
+          return Promise.resolve(errorBody);
+        });
+    }
   };
 
   return (
@@ -55,23 +85,33 @@ export default function SignUp() {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  autoComplete="given-name"
-                  name="firstName"
+                  name="firstname"
                   required
                   fullWidth
-                  id="firstName"
+                  id="firstname"
                   label="First Name"
                   autoFocus
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
-                  id="lastName"
+                  id="lastname"
                   label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
+                  name="lastname"
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="username"
+                  label="Username"
+                  name="username"
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -81,7 +121,7 @@ export default function SignUp() {
                   id="email"
                   label="Email Address"
                   name="email"
-                  autoComplete="email"
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -92,7 +132,7 @@ export default function SignUp() {
                   label="Password"
                   type="password"
                   id="password"
-                  autoComplete="new-password"
+                  onChange={handleChange}
                 />
               </Grid>
             </Grid>
