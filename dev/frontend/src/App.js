@@ -14,9 +14,7 @@ import UserContext from "./context/userContext";
 
 function App() {
   const [userInfoContext, setUserInfoContext] = useState(userModel);
-  useEffect(() => {
-    console.log("userInfoContext updated:", userInfoContext);
-  }, [userInfoContext]);
+
   return (
     <>
       <CssBaseline />
