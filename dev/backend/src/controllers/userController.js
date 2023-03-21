@@ -56,18 +56,23 @@ const addUser = asyncHandler(async (req, res) => {
   const hash = await bcrypt.hash(password, 12);
 
   try {
-    const { rows } = await pool.query(queries.addUser, [
+    await pool.query(queries.addUser, [
       firstname,
       lastname,
       email,
       username,
       hash,
     ]);
+    const { rows: [userInfo] } = await pool.query("SELECT * FROM users WHERE username = $1", [
+      username
+    ]);
+    delete userInfo.password;
     req.session.loggedIn = true;
-    req.session.userID = rows[0].userid;
-    res.status(201).send("User added and logged in successfully");
+    req.session.userID = userInfo.userid;
+    res.status(201).json(userInfo);
   } catch (e) {
-    res.status(500).send("There was a problem adding the user to the database");
+    console.error(e);
+    res.status(500).send("There was a problem adding the user to the database, see console for more details");
   }
 });
 
