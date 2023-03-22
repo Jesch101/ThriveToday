@@ -53,8 +53,8 @@ export default function SignIn() {
           navigate("/");
         })
         .catch((err) => {
-          console.error(err);
           let errorBody = err.response;
+          console.log(errorBody);
           return Promise.resolve(errorBody);
         });
     }
