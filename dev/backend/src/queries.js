@@ -14,9 +14,9 @@ const addPost = "INSERT INTO posts (userid, post_title, date_created, tags) VALU
 const addTopic = "INSERT INTO topics (postid, topic_title, content) VALUES ($1, $2, $3)";
 const addSubtopic = "INSERT INTO subtopics (topicid, subtopic_title, content) VALUES ($1, $2, $3)";
 
-const editPost = "";
-const editTopic = "";
-const editSubtopic = "";
+const editPost = "UPDATE plans SET content = $1 WHERE postid = $2";
+const editTopic = "UPDATE topics SET content = $1 WHERE topicid = $2";
+const editSubtopic = "UPDATE subtopics SET content = $1 WHERE subtopicid = $2";
 
 const getUsersLikedPosts = "SELECT * FROM liked WHERE postid = $1 AND userid = $2";
 const likePost = "INSERT INTO liked (postid, userid) VALUES ($1, $2)";

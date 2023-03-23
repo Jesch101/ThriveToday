@@ -44,8 +44,8 @@ const getSubtopicById = asyncHandler(async (req, res) => {
 // @route   POST /api/plans/create
 // @access  Private
 const addPost = asyncHandler(async (req, res) => {
-  // future: userid = req.header;
-  const { userid, post_title, datecreated, tags } = req.body;
+  let userid = req.session?.userID;
+  const { post_title, datecreated, tags } = req.body;
 
   pool.query(
     queries.addPost,
@@ -117,7 +117,7 @@ const likePost = asyncHandler(async (req, res) => {
 });
 
 // @desc    Edit plan
-// @route   PUT /api/plans/:postid/edit
+// @route   PATCH /api/plans/:postid/edit
 // @access  Public
 const editPlan = asyncHandler(async (req, res) => {
   
@@ -133,15 +133,17 @@ const editPlan = asyncHandler(async (req, res) => {
       return;
     } else {
       // Make the query to edit
+      pool.query(queries.editPost, [content, postid])
     }
   } catch (e) {
-
+    console.error(e);
+    res.status(500).send("Server error");
   }
 
 });
 
 // @desc    Edit topic
-// @route   PUT /api/plans/:postid/:topicid/edit
+// @route   PATCH /api/plans/:postid/:topicid/edit
 // @access  Public
 const editTopic = asyncHandler(async (req, res) => {
   
@@ -149,7 +151,7 @@ const editTopic = asyncHandler(async (req, res) => {
 });
 
 // @desc    Edit subtopic
-// @route   PUT /api/plans/:postid/:topicid/:subtopicid/edit
+// @route   PATCH /api/plans/:postid/:topicid/:subtopicid/edit
 // @access  Public
 const editSubtopic = asyncHandler(async (req, res) => {
   
