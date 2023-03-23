@@ -47,14 +47,17 @@ export default function SignIn() {
         .then((res) => {
           //TODO make res data into user context
           user.setUserInfoContext({
-            ...user.userInfoContext,
-            username: formData.username,
+            username: res.data.username,
+            userid: res.data.userid,
+            email: res.data.email,
+            firstname: res.data.firstname,
+            lastname: res.data.lastname,
           });
           navigate("/");
         })
         .catch((err) => {
-          console.error(err);
           let errorBody = err.response;
+          console.log(errorBody);
           return Promise.resolve(errorBody);
         });
     }

@@ -25,9 +25,9 @@ const postLogin = asyncHandler(async (req, res) => {
 
   req.session.loggedIn = true;
   req.session.userID = userInfo[0].userid;
-  console.log(req.session);
-
-  res.status(200).send("Login success");
+  const userData = userInfo[0];
+  delete userData.password;
+  res.status(200).json(userData);
 });
 
 // @desc    Test endpoint for session
@@ -43,6 +43,7 @@ const getTest = asyncHandler(async (req, res) => {
 // @access  Private
 const postLogout = asyncHandler(async (req, res) => {
   req.session.destroy();
+  res.status(200).json({ message: "Logout successful" });
 });
 
 module.exports = {

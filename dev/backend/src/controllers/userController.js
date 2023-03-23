@@ -30,6 +30,7 @@ const getUserById = asyncHandler(async (req, res) => {
     const { password, ...userData } = rows[0];
     res.status(200).json(userData);
   } catch (e) {
+    console.log("I'm in here");
     console.error(e);
     res.status(500).json({ message: "Server error" });
   }
@@ -63,16 +64,43 @@ const addUser = asyncHandler(async (req, res) => {
       username,
       hash,
     ]);
-    const { rows: [userInfo] } = await pool.query("SELECT * FROM users WHERE username = $1", [
-      username
-    ]);
+    const {
+      rows: [userInfo],
+    } = await pool.query("SELECT * FROM users WHERE username = $1", [username]);
     delete userInfo.password;
     req.session.loggedIn = true;
     req.session.userID = userInfo.userid;
     res.status(201).json(userInfo);
   } catch (e) {
     console.error(e);
-    res.status(500).send("There was a problem adding the user to the database, see console for more details");
+    res
+      .status(500)
+      .send(
+        "There was a problem adding the user to the database, see console for more details"
+      );
+  }
+});
+
+// @desc    Get user info given user is logged in
+// @route   GET /api/users/get-user-info
+// @access  Private
+const getUserInfo = asyncHandler(async (req, res) => {
+  if (!req.session?.userID && req.session?.loggedIn) {
+    res.status(401);
+    return;
+  }
+
+  let id = req.session?.userID;
+  try {
+    const { rows } = await pool.query(queries.getUserById, [id]);
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const { password, ...userData } = rows[0];
+    res.status(200).json(userData);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ message: "Server error" });
   }
 });
 
@@ -96,6 +124,7 @@ const deleteUser = asyncHandler(async (req, res) => {});
 module.exports = {
   getUsers,
   getUserById,
+  getUserInfo,
   addUser,
   updateUsername,
   updatePassword,

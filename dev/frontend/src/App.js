@@ -11,10 +11,26 @@ import SignUp from "./pages/SignUp";
 import { rootStyles, defaultStyles } from "./themes/styles/styles";
 import userModel from "./context/userModel";
 import UserContext from "./context/userContext";
+import axiosInstance from "./axios";
 
 function App() {
   const [userInfoContext, setUserInfoContext] = useState(userModel);
 
+  const getUserInfo = () => {
+    axiosInstance
+      .get(`/users/get-user-info`)
+      .then((res) => {
+        const result = res.data;
+        setUserInfoContext(result);
+      })
+      .catch((err) => {
+        let errorBody = err.response;
+        return Promise.resolve(errorBody);
+      });
+  };
+  useEffect(() => {
+    getUserInfo();
+  }, []);
   return (
     <>
       <CssBaseline />
@@ -23,7 +39,6 @@ function App() {
           <div style={rootStyles}>
             <div style={defaultStyles}>
               <Navbar />
-
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />

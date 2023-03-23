@@ -5,6 +5,9 @@ import logo from "../assets/logo.svg";
 import { Link } from "react-router-dom";
 import CenterBox from "../components/CenterBox";
 import UserContext from "../context/userContext";
+import userModel from "../context/userModel";
+import axiosInstance from "../axios";
+import { useNavigate } from "react-router-dom";
 
 const NavItem = styled(Typography)`
   text-decoration: none;
@@ -32,8 +35,24 @@ const NavItem = styled(Typography)`
 `;
 
 function Navbar() {
-  const { userInfoContext } = useContext(UserContext);
+  const { userInfoContext, setUserInfoContext } = useContext(UserContext);
+
   const [username, setUsername] = useState(null);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    axiosInstance
+      .post(`/login/logout`)
+      .then((res) => {
+        setUserInfoContext(userModel);
+        navigate("/");
+      })
+      .catch((err) => {
+        let errorBody = err.response;
+        console.log(errorBody.data);
+        return Promise.resolve(errorBody);
+      });
+  };
 
   useEffect(() => {
     setUsername(userInfoContext?.username);
@@ -102,7 +121,19 @@ function Navbar() {
               </Box>
               <Box ml="auto" pr={theme.spacing(5)}>
                 {username ? (
-                  <NavItem>{username}</NavItem>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignitems: "center",
+                      justifyContent: "center",
+                    }}>
+                    <Box mr={theme.spacing(2)}>
+                      <NavItem>{username}</NavItem>
+                    </Box>
+                    <Box ml={theme.spacing(2)}>
+                      <NavItem onClick={handleLogout}>Logout</NavItem>
+                    </Box>
+                  </Box>
                 ) : (
                   <Link
                     to="/login"
