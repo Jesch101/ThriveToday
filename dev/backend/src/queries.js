@@ -8,10 +8,15 @@ const checkUsernameExists = "SELECT s FROM users s WHERE s.username = $1";
 
 const getPlans = "SELECT * FROM posts";
 const getPlanById = "SELECT * FROM posts WHERE postid = $1";
+const getPlanAuthor = "SELECT userid FROM posts WHERE postid = $1";
 
 const addPost = "INSERT INTO posts (userid, post_title, date_created, tags) VALUES ($1, $2, $3, $4)";
 const addTopic = "INSERT INTO topics (postid, topic_title, content) VALUES ($1, $2, $3)";
 const addSubtopic = "INSERT INTO subtopics (topicid, subtopic_title, content) VALUES ($1, $2, $3)";
+
+const editPost = "";
+const editTopic = "";
+const editSubtopic = "";
 
 const getUsersLikedPosts = "SELECT * FROM liked WHERE postid = $1 AND userid = $2";
 const likePost = "INSERT INTO liked (postid, userid) VALUES ($1, $2)";
@@ -28,9 +33,14 @@ module.exports = {
 
     getPlans,
     getPlanById,
+    getPlanAuthor,
     addPost,
     addTopic,
     addSubtopic,
+    
+    editPost,
+    editTopic,
+    editSubtopic,
 
     getUsersLikedPosts,
     likePost,

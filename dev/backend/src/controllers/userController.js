@@ -104,6 +104,12 @@ const getUserInfo = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Get users liked posts
+// @route   GET /api/users/:userid/likes
+// @access  Private
+const getUserLikes = asyncHandler(async (req, res) => {});
+
+
 // @desc    Update username
 // @route   PUT /api/users/update-username
 // @access  Private
@@ -126,6 +132,7 @@ module.exports = {
   getUserById,
   getUserInfo,
   addUser,
+  getUserLikes,
   updateUsername,
   updatePassword,
   updateEmail,

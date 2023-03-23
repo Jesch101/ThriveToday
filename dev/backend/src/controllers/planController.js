@@ -23,6 +23,23 @@ const getPlanById = asyncHandler(async (req, res) => {
   });
 });
 
+// @desc    Get topic by post ID
+// @route   GET /api/plans/:postid/:topicid
+// @access  Public
+const getTopicById = asyncHandler(async (req, res) => {
+  
+
+});
+
+// @desc    Get subtopic by post and topic ID
+// @route   GET /api/plans/:postid/:topicid/:subtopicid
+// @access  Public
+const getSubtopicById = asyncHandler(async (req, res) => {
+  
+
+});
+
+
 // @desc    Add a post
 // @route   POST /api/plans/create
 // @access  Private
@@ -85,8 +102,9 @@ const addSubtopic = asyncHandler(async (req, res) => {
 // @access  Private
 const likePost = asyncHandler(async (req, res) => {
   
+  // Add condition for if not logged in 
   const postid = parseInt(req.params.postid);
-  req.session.userID = userInfo[0].userid;
+  let userid = req.session?.userID;
   
   const likes = await pool.query(queries.getUsersLikedPosts, [userid], (error, results) => {
     if (likes.length) { // If user has liked this post, remove from likes
@@ -98,11 +116,56 @@ const likePost = asyncHandler(async (req, res) => {
   });
 });
 
+// @desc    Edit plan
+// @route   PUT /api/plans/:postid/edit
+// @access  Public
+const editPlan = asyncHandler(async (req, res) => {
+  
+  let id = req.session?.userID;
+  const postid = parseInt(req.params.postid);
+  const content = req.body;
+
+  try {
+    const authorID = await pool.query(queries.getPlanAuthor, [postid])
+    if (id != authorID)
+    {
+      res.status(403).send("No permissions to edit");
+      return;
+    } else {
+      // Make the query to edit
+    }
+  } catch (e) {
+
+  }
+
+});
+
+// @desc    Edit topic
+// @route   PUT /api/plans/:postid/:topicid/edit
+// @access  Public
+const editTopic = asyncHandler(async (req, res) => {
+  
+
+});
+
+// @desc    Edit subtopic
+// @route   PUT /api/plans/:postid/:topicid/:subtopicid/edit
+// @access  Public
+const editSubtopic = asyncHandler(async (req, res) => {
+  
+
+});
+
 module.exports = {
   getPlans,
   getPlanById,
+  getTopicById,
+  getSubtopicById,
   addPost,
   addTopic,
   addSubtopic,
   likePost,
+  editPlan,
+  editTopic,
+  editSubtopic,
 };
