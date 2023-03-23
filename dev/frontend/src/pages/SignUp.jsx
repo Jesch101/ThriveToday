@@ -50,8 +50,14 @@ export default function SignUp() {
           password: formData.password,
         })
         .then((res) => {
-          console.log("Success (?)");
-          console.log(res.data);
+          user.setUserInfoContext({
+            username: res.data.username,
+            userid: res.data.userid,
+            email: res.data.email,
+            firstname: res.data.firstname,
+            lastname: res.data.lastname,
+          });
+          navigate("/");
         })
         .catch((err) => {
           let errorBody = err.response;
