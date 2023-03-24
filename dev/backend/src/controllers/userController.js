@@ -42,7 +42,19 @@ const getUserById = asyncHandler(async (req, res) => {
 const addUser = asyncHandler(async (req, res) => {
   const { firstname, lastname, email, username, password } = req.body;
   const MIN_PASSWORD_LENGTH = 5;
+  const validEmailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+  if (!validEmailRegex.test(email)) {
+    res.status(400).send("Invalid email format.");
+    return;
+  }
+  const { rows: userExistsRows } = await pool.query(queries.checkUsernameExists, [
+    username
+  ]);
+  if (userExistsRows?.length) {
+    res.status(400).send("Username already exists.");
+    return;
+  }
   const { rows: emailRows } = await pool.query(queries.checkEmailExists, [
     email,
   ]);
