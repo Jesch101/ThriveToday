@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../themes/theme";
@@ -13,12 +13,36 @@ import {
   Typography,
   Container,
   Link,
+  Alert,
+  AlertTitle,
 } from "@mui/material";
 import UserContext from "../context/userContext";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../axios";
 
+function BadLogin(props) {
+  useEffect(() => {
+    // when the component is mounted, the alert is displayed for 8 seconds
+    setTimeout(() => {
+      props.setAlert(false);
+    }, 8000);
+  });
+
+  return (
+    <Grid item sx={{ mb: 3 }}>
+      <Box sx={{ width: "100%" }}>
+        <Alert severity="error">
+          <AlertTitle>Error</AlertTitle>
+          Sign in error — <strong>username or password is incorrect.</strong>
+        </Alert>
+      </Box>
+    </Grid>
+  );
+}
+
 export default function SignIn() {
+  const [alert, setAlert] = useState(false);
+
   const navigate = useNavigate();
   const user = useContext(UserContext);
   const initialFormData = Object.freeze({
@@ -45,7 +69,6 @@ export default function SignIn() {
           password: formData.password,
         })
         .then((res) => {
-          //TODO make res data into user context
           user.setUserInfoContext({
             username: res.data.username,
             userid: res.data.userid,
@@ -56,6 +79,7 @@ export default function SignIn() {
           navigate("/");
         })
         .catch((err) => {
+          setAlert(true);
           let errorBody = err.response;
           console.log(errorBody);
           return Promise.resolve(errorBody);
@@ -108,6 +132,7 @@ export default function SignIn() {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+            {alert ? <BadLogin alert={alert} setAlert={setAlert} /> : null}
             <Button
               type="submit"
               fullWidth
