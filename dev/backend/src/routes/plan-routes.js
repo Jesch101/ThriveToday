@@ -15,7 +15,12 @@ router.get("/", getPlans);
 router.get("/:postid", getPlanById); // Should show all post details
 router.put("/:postid/like", requireLogin, likePost);
 
-router.post("/create", requireLogin, addPost); // Route names can be changed but keep /:postid/:topicid structure
+// Editing functionality
+router.patch("/:postid/edit", requireLogin, editPlan); 
+router.patch("/:postid/:topicid/edit", requireLogin, editTopic); 
+router.patch("/:postid/:topicid/:subtopicid/edit", requireLogin, editSubtopic); 
+
+router.post("/create", requireLogin, addPost); 
 router.post("/create/:postid", requireLogin, addTopic);
 router.post("/create/:postid/:topicid", requireLogin, addSubtopic);
 
