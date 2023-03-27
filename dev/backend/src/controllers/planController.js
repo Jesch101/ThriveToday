@@ -101,8 +101,7 @@ const addSubtopic = asyncHandler(async (req, res) => {
 // @route   PUT /api/plans/:postid/like
 // @access  Private
 const likePost = asyncHandler(async (req, res) => {
-  
-  // Add condition for if not logged in 
+
   const postid = parseInt(req.params.postid);
   let userid = req.session?.userID;
   
@@ -123,17 +122,16 @@ const editPlan = asyncHandler(async (req, res) => {
   
   let id = req.session?.userID;
   const postid = parseInt(req.params.postid);
-  const content = req.body;
+  const post_title = req.body;
 
   try {
     const authorID = await pool.query(queries.getPlanAuthor, [postid])
-    if (id != authorID)
+    if (id != authorID) // If user is not the author
     {
       res.status(403).send("No permissions to edit");
       return;
-    } else {
-      // Make the query to edit
-      pool.query(queries.editPost, [content, postid])
+    } else { // User is the author, change data
+      pool.query(queries.editPost, [post_title, postid]);
     }
   } catch (e) {
     console.error(e);
@@ -147,6 +145,24 @@ const editPlan = asyncHandler(async (req, res) => {
 // @access  Public
 const editTopic = asyncHandler(async (req, res) => {
   
+  let id = req.session?.userID;
+  const postid = parseInt(req.params.postid);
+  const topicid = parseInt(req.params.topicid);
+  const { topic_title, content } = req.body;
+
+  try {
+    const authorID = await pool.query(queries.getPlanAuthor, [postid])
+    if (id != authorID) // If user is not the author
+    {
+      res.status(403).send("No permissions to edit");
+      return;
+    } else { // User is the author, change data
+      pool.query(queries.editTopic, [topic_title, content, postid, topicid]);
+    }
+  } catch (e) {
+    console.error(e);
+    res.status(500).send("Server error");
+  }
 
 });
 
@@ -155,6 +171,24 @@ const editTopic = asyncHandler(async (req, res) => {
 // @access  Public
 const editSubtopic = asyncHandler(async (req, res) => {
   
+  let id = req.session?.userID;
+  const topicid = parseInt(req.params.topicid);
+  const subtopicid = parseInt(req.params.subtopicid);
+  const { subtopic_title, content } = req.body;
+
+  try {
+    const authorID = await pool.query(queries.getPlanAuthor, [postid])
+    if (id != authorID) // If user is not the author
+    {
+      res.status(403).send("No permissions to edit");
+      return;
+    } else { // User is the author, change data
+      pool.query(queries.editSubtopic, [subtopic_title, content, topicid, subtopicid]);
+    }
+  } catch (e) {
+    console.error(e);
+    res.status(500).send("Server error");
+  }
 
 });
 
