@@ -27,15 +27,22 @@ const getPlanById = asyncHandler(async (req, res) => {
 // @route   GET /api/plans/:postid/:topicid
 // @access  Public
 const getTopicById = asyncHandler(async (req, res) => {
-  
-
+  const id = parseInt(req.params.topicid);
+  pool.query(queries.getTopicById, [id], (error, results) => {
+    if (error) res.status(500).send("Server error");
+    res.status(200).json(results.rows);
+  });
 });
 
 // @desc    Get subtopic by post and topic ID
 // @route   GET /api/plans/:postid/:topicid/:subtopicid
 // @access  Public
 const getSubtopicById = asyncHandler(async (req, res) => {
-  
+  const id = parseInt(req.params.subtopicid);
+  pool.query(queries.getSubtopicById, [id], (error, results) => {
+    if (error) res.status(500).send("Server error");
+    res.status(200).json(results.rows);
+  });
 
 });
 
@@ -132,6 +139,7 @@ const editPlan = asyncHandler(async (req, res) => {
       return;
     } else { // User is the author, change data
       pool.query(queries.editPost, [post_title, postid]);
+      res.status(200).send("Post has been updated");
     }
   } catch (e) {
     console.error(e);
@@ -158,6 +166,7 @@ const editTopic = asyncHandler(async (req, res) => {
       return;
     } else { // User is the author, change data
       pool.query(queries.editTopic, [topic_title, content, postid, topicid]);
+      res.status(200).send("Topic has been updated");
     }
   } catch (e) {
     console.error(e);
@@ -184,7 +193,8 @@ const editSubtopic = asyncHandler(async (req, res) => {
       return;
     } else { // User is the author, change data
       pool.query(queries.editSubtopic, [subtopic_title, content, topicid, subtopicid]);
-    }
+      res.status(200).send("Subtopic has been updated");
+    } 
   } catch (e) {
     console.error(e);
     res.status(500).send("Server error");
