@@ -2,10 +2,15 @@ const { Router } = require("express"); // Using the Express router
 const {
   getPlans,
   getPlanById,
+  getTopicById,
+  getSubtopicById,
   likePost,
   addPost,
   addTopic,
   addSubtopic,
+  editPlan,
+  editTopic,
+  editSubtopic,
 } = require("../controllers/planController");
 const { requireLogin } = require("../middleware/authMiddleware");
 const router = Router();
@@ -13,6 +18,8 @@ const router = Router();
 router.get("/", getPlans);
 
 router.get("/:postid", getPlanById); // Should show all post details
+router.get("/:postid/:topicid", getTopicById)
+router.get("/:postid/:topicid/:subtopicid", getSubtopicById)
 router.put("/:postid/like", requireLogin, likePost);
 
 // Editing functionality
