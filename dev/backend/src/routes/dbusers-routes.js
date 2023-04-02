@@ -21,7 +21,6 @@ router.put("/update-username", requireLogin, updateUsername);
 router.put("/update-password", requireLogin, updatePassword);
 
 router.post("/add-user", addUser);
-// router.put("/:userid", updateUsername);
 
 router.delete("/:userid", deleteUser);
 
