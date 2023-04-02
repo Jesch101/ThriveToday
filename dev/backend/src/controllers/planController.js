@@ -115,7 +115,7 @@ const likePost = asyncHandler(async (req, res) => {
   const { rows } = await pool.query(queries.hasUserLikedPost, [postid, userid])
     if (rows.length == 0) { // If user has not liked this post, add the post as liked
       pool.query(queries.likePost, [postid, userid]);
-      res.status(200).send("Post has been liked");
+      res.status(201).send("Post has been liked");
     }
     else { // User has liked the post, remove the like
       pool.query(queries.unlikePost, [postid, userid]);
@@ -182,6 +182,7 @@ const editTopic = asyncHandler(async (req, res) => {
 const editSubtopic = asyncHandler(async (req, res) => {
   
   let id = req.session?.userID;
+  const postid = parseInt(req.params.postid);
   const topicid = parseInt(req.params.topicid);
   const subtopicid = parseInt(req.params.subtopicid);
   const { subtopic_title, content } = req.body;
