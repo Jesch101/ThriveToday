@@ -114,11 +114,15 @@ const likePost = asyncHandler(async (req, res) => {
   
   const { rows } = await pool.query(queries.hasUserLikedPost, [postid, userid])
     if (rows.length == 0) { // If user has not liked this post, add the post as liked
-      pool.query(queries.likePost, [postid, userid]);
+      await pool.query(queries.likePost, [postid, userid]);
+      // Increment post likes in posts
+      await pool.query(queries.incPostLikes, [postid]);
       res.status(201).send("Post has been liked");
     }
     else { // User has liked the post, remove the like
-      pool.query(queries.unlikePost, [postid, userid]);
+      await pool.query(queries.unlikePost, [postid, userid]);
+      // Decrement post likes in posts
+      await pool.query(queries.decPostLikes, [postid]);
       res.status(200).send("Post has been unliked");
     }  
 });
@@ -204,6 +208,11 @@ const editSubtopic = asyncHandler(async (req, res) => {
 
 });
 
+const getTopTen = asyncHandler(async (req, res) => {
+  const { rows } = await pool.query(queries.getTopTen);
+  res.status(200).json(rows);  
+});
+
 module.exports = {
   getPlans,
   getPlanById,
@@ -216,4 +225,5 @@ module.exports = {
   editPlan,
   editTopic,
   editSubtopic,
+  getTopTen,
 };

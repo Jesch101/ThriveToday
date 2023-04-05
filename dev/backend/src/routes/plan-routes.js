@@ -11,11 +11,14 @@ const {
   editPlan,
   editTopic,
   editSubtopic,
+  getTopTen,
 } = require("../controllers/planController");
 const { requireLogin } = require("../middleware/authMiddleware");
 const router = Router();
 
 router.get("/", getPlans);
+
+router.get("/top-plans", getTopTen);
 
 router.get("/:postid", getPlanById); // Should show all post details
 router.get("/:postid/:topicid", getTopicById)
