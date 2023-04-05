@@ -119,8 +119,16 @@ const getUserInfo = asyncHandler(async (req, res) => {
 // @desc    Get users liked posts
 // @route   GET /api/users/:userid/likes
 // @access  Private
-const getUserLikes = asyncHandler(async (req, res) => {});
-
+const getUserLikes = asyncHandler(async (req, res) => {
+  const id = parseInt(req.params.userid);
+  const { rows } = await pool.query(queries.getUserLikes, [id])
+  if (rows.length == 0) {
+    res.status(200).send("This user has no likes");
+  }
+  else {
+    res.status(200).json(rows);
+  }
+});
 
 // @desc    Update username
 // @route   PUT /api/users/update-username
