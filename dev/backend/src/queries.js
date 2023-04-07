@@ -16,7 +16,7 @@ const getTopTen = "SELECT * FROM posts ORDER BY likes DESC limit 10";
 const getRecentPlansByUserId = "SELECT * FROM posts ORDER BY date_created DESC LIMIT 5 WHERE userid = $1";
 const getPlansByUserId = "SELECT * FROM posts WHERE userid = $1";
 
-const addPost = "INSERT INTO posts (userid, post_title, date_created, tags) VALUES ($1, $2, $3, $4)";
+const addPost = "INSERT INTO posts (userid, post_title, date_created) VALUES ($1, $2, $3)";
 const addTopic = "INSERT INTO topics (postid, topic_title, content) VALUES ($1, $2, $3)";
 const addSubtopic = "INSERT INTO subtopics (topicid, subtopic_title, content) VALUES ($1, $2, $3)";
 
