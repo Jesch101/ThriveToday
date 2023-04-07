@@ -52,11 +52,11 @@ const getSubtopicById = asyncHandler(async (req, res) => {
 // @access  Private
 const addPost = asyncHandler(async (req, res) => {
   let userid = req.session?.userID;
-  const { post_title, datecreated, tags } = req.body;
+  const { post_title, datecreated} = req.body;
 
   pool.query(
     queries.addPost,
-    [userid, post_title, datecreated, tags],
+    [userid, post_title, datecreated],
     (error, results) => {
       if (error) throw error;
       res.status(201).send("Post added successfully");

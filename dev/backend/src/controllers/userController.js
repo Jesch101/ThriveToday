@@ -130,6 +130,35 @@ const getUserLikes = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Get users 5 most recent plans
+// @route   GET /api/users/:userid/plans
+// @access  Private
+const getRecentPlansByUserId = asyncHandler(async (req, res) => {
+  const id = parseInt(req.params.userid);
+  const { rows } = await pool.query(queries.getRecentPlansByUserId, [id])
+  if (rows.length == 0) {
+    res.status(200).send("This user has not created any plans");
+  }
+  else {
+    res.status(200).json(rows);
+  }
+});
+
+// @desc    Get users plans
+// @route   GET /api/users/:userid/all-plans
+// @access  Private
+const getPlansByUserId = asyncHandler(async (req, res) => {
+  const id = parseInt(req.params.userid);
+  const { rows } = await pool.query(queries.getPlansByUserId, [id])
+  if (rows.length == 0) {
+    res.status(200).send("This user has not created any plans");
+  }
+  else {
+    res.status(200).json(rows);
+  }
+  
+});
+
 // @desc    Update username
 // @route   PUT /api/users/update-username
 // @access  Private
@@ -153,6 +182,8 @@ module.exports = {
   getUserInfo,
   addUser,
   getUserLikes,
+  getRecentPlansByUserId,
+  getPlansByUserId,
   updateUsername,
   updatePassword,
   updateEmail,
