@@ -130,6 +130,22 @@ const getUserLikes = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Get users liked posts
+// @route   GET /api/users/:userid/likes
+// @access  Private
+const getRecentPlansByUserId = asyncHandler(async (req, res) => {
+  
+  
+});
+
+// @desc    Get users liked posts
+// @route   GET /api/users/:userid/likes
+// @access  Private
+const getPlansByUserId = asyncHandler(async (req, res) => {
+  
+  
+});
+
 // @desc    Update username
 // @route   PUT /api/users/update-username
 // @access  Private
@@ -153,6 +169,8 @@ module.exports = {
   getUserInfo,
   addUser,
   getUserLikes,
+  getRecentPlansByUserId,
+  getPlansByUserId,
   updateUsername,
   updatePassword,
   updateEmail,

@@ -7,7 +7,9 @@ const {
   deleteUser,
   addUser,
   getUserInfo,
-  getUserLikes
+  getUserLikes,
+  getRecentPlansByUserId,
+  getPlansByUserId,
 } = require("../controllers/userController");
 
 const { requireLogin } = require("../middleware/authMiddleware");
@@ -17,7 +19,9 @@ const router = Router();
 router.get("/", getUsers);
 router.get("/get-user-info", requireLogin, getUserInfo);
 router.get("/:userid", getUserById);
-router.get("/:userid/likes", getUserLikes)
+router.get("/:userid/likes", getUserLikes);
+router.get("/:userid/plans", getRecentPlansByUserId);
+router.get("/:userid/all-plans", getPlansByUserId);
 
 router.put("/update-username", requireLogin, updateUsername);
 router.put("/update-password", requireLogin, updatePassword);

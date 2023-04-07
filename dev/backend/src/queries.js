@@ -13,6 +13,8 @@ const getTopicById = "SELECT * FROM topics WHERE topicid = $1";
 const getSubtopicById = "SELECT * FROM subtopics WHERE subtopicid = $1";
 const getPlanAuthor = "SELECT userid FROM posts WHERE postid = $1";
 const getTopTen = "SELECT * FROM posts ORDER BY likes DESC limit 10";
+const getRecentPlansByUserId = "";
+const getPlansByUserId = "";
 
 const addPost = "INSERT INTO posts (userid, post_title, date_created, tags) VALUES ($1, $2, $3, $4)";
 const addTopic = "INSERT INTO topics (postid, topic_title, content) VALUES ($1, $2, $3)";
@@ -44,6 +46,8 @@ module.exports = {
     getSubtopicById,
     getPlanAuthor,
     getTopTen,
+    getRecentPlansByUserId,
+    getPlansByUserId,
 
     addPost,
     addTopic,
