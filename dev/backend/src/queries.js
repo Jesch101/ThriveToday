@@ -3,6 +3,8 @@ const getUserById = "SELECT * FROM users WHERE userid = $1";
 const getUserByUsername = "SELECT * FROM users WHERE username = $1";
 const getUserLikes = "SELECT * FROM likes RIGHT JOIN posts ON likes.postid = posts.postid WHERE likes.userid = $1";
 const addUser = "INSERT INTO users (firstname, lastname, email, username, password) VALUES ($1, $2, $3, $4, $5)";
+const deleteUser = "DELETE FROM users WHERE userid = $1";
+const updateUser = "UPDATE users SET username = $1 WHERE userid = $2";
 
 const checkEmailExists = "SELECT s FROM users s WHERE s.email = $1";
 const checkUsernameExists = "SELECT s FROM users s WHERE s.username = $1"; 
@@ -37,6 +39,8 @@ module.exports = {
     getUserByUsername,
     getUserLikes,
     addUser,
+    deleteUser,
+    updateUser,
     checkEmailExists,
     checkUsernameExists,
 
