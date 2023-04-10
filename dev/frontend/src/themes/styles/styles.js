@@ -12,3 +12,11 @@ export const defaultStyles = {
   width: "100%",
   minHeight: "100vh",
 };
+
+export const pageStyles = {
+  width: "100%",
+  background: "#F7FAFC",
+  height: "45vh",
+  minHeight: "350px",
+  maxHeight: "800px",
+};

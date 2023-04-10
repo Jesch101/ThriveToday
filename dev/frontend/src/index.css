@@ -11,3 +11,6 @@ body {
   width: 100%;
   height: 100%;
 }
+:root {
+  --root-45vh: 45vh;
+}

@@ -19,6 +19,7 @@ import {
 import UserContext from "../context/userContext";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../axios";
+import Loader from "../components/Loader";
 
 function BadLogin(props) {
   useEffect(() => {
@@ -40,8 +41,9 @@ function BadLogin(props) {
   );
 }
 
-export default function SignIn() {
+export default function SignIn(props) {
   const [alert, setAlert] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const user = useContext(UserContext);
@@ -63,6 +65,7 @@ export default function SignIn() {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (formData.username && formData.password) {
+      setLoading(true);
       axiosInstance
         .post(`/login`, {
           username: formData.username,
@@ -76,16 +79,23 @@ export default function SignIn() {
             firstname: res.data.firstname,
             lastname: res.data.lastname,
           });
+          props.setLoggedIn(true);
           navigate("/");
         })
         .catch((err) => {
           setAlert(true);
           let errorBody = err.response;
-          console.log(errorBody);
           return Promise.resolve(errorBody);
+        })
+        .then(() => {
+          setLoading(false);
         });
     }
   };
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <ThemeProvider theme={theme}>
