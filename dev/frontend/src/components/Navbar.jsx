@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, ThemeProvider, Typography, styled } from "@mui/material";
+import { Box, ThemeProvider, Typography, styled, Tooltip } from "@mui/material";
 import theme from "../themes/theme";
 import logo from "../assets/logo.svg";
 import { Link } from "react-router-dom";
@@ -49,7 +49,6 @@ function Navbar() {
       })
       .catch((err) => {
         let errorBody = err.response;
-        console.log(errorBody.data);
         return Promise.resolve(errorBody);
       });
   };
@@ -65,6 +64,7 @@ function Navbar() {
           position: "sticky",
           overflow: "hidden",
           paddingTop: `${theme.spacing(3)}`,
+          zIndex: "1",
         }}>
         <Box
           className="container"
@@ -128,7 +128,20 @@ function Navbar() {
                       justifyContent: "center",
                     }}>
                     <Box mr={theme.spacing(2)}>
-                      <NavItem>{username}</NavItem>
+                      <Tooltip title="Profile">
+                        <Link
+                          to="/profile"
+                          style={{
+                            textDecoration: "none",
+                            color: "inherit",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "flex-start",
+                            flex: "1",
+                          }}>
+                          <NavItem>{username}</NavItem>
+                        </Link>
+                      </Tooltip>
                     </Box>
                     <Box ml={theme.spacing(2)}>
                       <NavItem onClick={handleLogout}>Logout</NavItem>

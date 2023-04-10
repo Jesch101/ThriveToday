@@ -1,0 +1,34 @@
+{
+  "user_id": 1,
+  "posts": [
+    {
+      "post_id": 1,
+      "post_title": "Lorem Ipsum",
+      "date_created": "2022-01-01T00:00:00Z",
+      "topics": [
+        {
+          "topic_id": 1,
+          "topic_title": "Topic 1",
+          "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        },
+        {
+          "topic_id": 2,
+          "topic_title": "Topic 2",
+          "content": "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        }
+      ]
+    },
+    {
+      "post_id": 2,
+      "post_title": "Dolor Sit Amet",
+      "date_created": "2022-02-01T00:00:00Z",
+      "topics": [
+        {
+          "topic_id": 3,
+          "topic_title": "Topic 3",
+          "content": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        }
+      ]
+    }
+  ]
+}
