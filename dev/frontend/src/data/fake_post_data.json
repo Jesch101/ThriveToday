@@ -1,0 +1,35 @@
+{
+  "posttitle": "My First Post",
+  "userid": 2,
+  "datecreated": "2022-04-03T12:34:56.000Z",
+  "topics": [
+    {
+      "topictitle": "Topic 1",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "subtopics": [
+        {
+          "subtopictitle": "Subtopic 1.1",
+          "content": "Pellentesque tempor dolor quis massa varius, vel convallis orci venenatis."
+        },
+        {
+          "subtopictitle": "Subtopic 1.2",
+          "content": "Etiam consectetur elit id nulla egestas, sed pulvinar turpis ullamcorper."
+        }
+      ]
+    },
+    {
+      "topictitle": "Topic 2",
+      "content": "Suspendisse luctus elit eu dolor eleifend, vel dictum lectus laoreet.",
+      "subtopics": [
+        {
+          "subtopictitle": "Subtopic 2.1",
+          "content": "Nullam a nunc ut odio tristique lacinia."
+        },
+        {
+          "subtopictitle": "Subtopic 2.2",
+          "content": "Aliquam sit amet tortor vel nulla consequat aliquet."
+        }
+      ]
+    }
+  ]
+}

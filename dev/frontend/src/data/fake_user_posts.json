@@ -1,0 +1,44 @@
+[
+  {
+    "postid": 6,
+    "userid": 2,
+    "post_title": "Studying School Tips",
+    "date_created": "2023-04-01T07:00:00.000Z",
+    "likes": 10
+  },
+  {
+    "postid": 7,
+    "userid": 2,
+    "post_title": "Diet Plan",
+    "date_created": "2023-03-23T07:00:00.000Z",
+    "likes": 20
+  },
+  {
+    "postid": 3,
+    "userid": 2,
+    "post_title": "This is my first plan",
+    "date_created": "2023-03-07T08:00:00.000Z",
+    "likes": 2
+  },
+  {
+    "postid": 1,
+    "userid": 2,
+    "post_title": "Test Review",
+    "date_created": "2023-03-06T08:00:00.000Z",
+    "likes": 0
+  },
+  {
+    "postid": 4,
+    "userid": 2,
+    "post_title": "Workouts",
+    "date_created": "2023-02-09T08:00:00.000Z",
+    "likes": 5
+  },
+  {
+    "postid": 5,
+    "userid": 2,
+    "post_title": "Studying",
+    "date_created": "2023-01-01T08:00:00.000Z",
+    "likes": 1
+  }
+]

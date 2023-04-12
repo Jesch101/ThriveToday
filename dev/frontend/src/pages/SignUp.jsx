@@ -14,9 +14,10 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../context/userContext";
+import Loader from "../components/Loader";
 import axiosInstance from "../axios";
 
-export default function SignUp() {
+export default function SignUp(props) {
   const navigate = useNavigate();
   const user = useContext(UserContext);
 
@@ -29,6 +30,7 @@ export default function SignUp() {
   });
 
   const [formData, setFormData] = useState(initialFormData);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -41,6 +43,7 @@ export default function SignUp() {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (Object.values(formData).every((val) => val)) {
+      setLoading(true);
       axiosInstance
         .post(`/users/add-user`, {
           firstname: formData.firstname,
@@ -57,15 +60,22 @@ export default function SignUp() {
             firstname: res.data.firstname,
             lastname: res.data.lastname,
           });
+          props.setLoggedIn(true);
           navigate("/");
         })
         .catch((err) => {
           let errorBody = err.response;
-          console.log(errorBody.data);
           return Promise.resolve(errorBody);
+        })
+        .then(() => {
+          setLoading(false);
         });
     }
   };
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <ThemeProvider theme={theme}>

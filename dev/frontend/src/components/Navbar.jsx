@@ -1,5 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, ThemeProvider, Typography, styled } from "@mui/material";
+import {
+  Box,
+  ThemeProvider,
+  Typography,
+  styled,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import theme from "../themes/theme";
 import logo from "../assets/logo.svg";
 import { Link } from "react-router-dom";
@@ -38,7 +45,18 @@ function Navbar() {
   const { userInfoContext, setUserInfoContext } = useContext(UserContext);
 
   const [username, setUsername] = useState(null);
+  const [profileAnchorEl, setProfileAnchorEl] = useState(null);
+  const profileOpen = Boolean(profileAnchorEl);
+
   const navigate = useNavigate();
+
+  const handleProfileClick = (e) => {
+    setProfileAnchorEl(e.currentTarget);
+  };
+
+  const handleProfileClose = (e) => {
+    setProfileAnchorEl(null);
+  };
 
   const handleLogout = () => {
     axiosInstance
@@ -49,7 +67,6 @@ function Navbar() {
       })
       .catch((err) => {
         let errorBody = err.response;
-        console.log(errorBody.data);
         return Promise.resolve(errorBody);
       });
   };
@@ -65,6 +82,7 @@ function Navbar() {
           position: "sticky",
           overflow: "hidden",
           paddingTop: `${theme.spacing(3)}`,
+          zIndex: "1",
         }}>
         <Box
           className="container"
@@ -128,10 +146,25 @@ function Navbar() {
                       justifyContent: "center",
                     }}>
                     <Box mr={theme.spacing(2)}>
-                      <NavItem>{username}</NavItem>
-                    </Box>
-                    <Box ml={theme.spacing(2)}>
-                      <NavItem onClick={handleLogout}>Logout</NavItem>
+                      <NavItem onClick={handleProfileClick}>{username}</NavItem>
+                      {profileAnchorEl && (
+                        <Menu
+                          anchorEl={profileAnchorEl}
+                          open={profileOpen}
+                          onClose={handleProfileClose}>
+                          <MenuItem
+                            onClick={() => {
+                              handleProfileClose();
+                              navigate("/profile");
+                            }}>
+                            Profile
+                          </MenuItem>
+                          <MenuItem onClick={handleProfileClose}>
+                            My account
+                          </MenuItem>
+                          <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                        </Menu>
+                      )}
                     </Box>
                   </Box>
                 ) : (
