@@ -1,5 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, ThemeProvider, Typography, styled, Tooltip } from "@mui/material";
+import {
+  Box,
+  ThemeProvider,
+  Typography,
+  styled,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import theme from "../themes/theme";
 import logo from "../assets/logo.svg";
 import { Link } from "react-router-dom";
@@ -38,7 +45,18 @@ function Navbar() {
   const { userInfoContext, setUserInfoContext } = useContext(UserContext);
 
   const [username, setUsername] = useState(null);
+  const [profileAnchorEl, setProfileAnchorEl] = useState(null);
+  const profileOpen = Boolean(profileAnchorEl);
+
   const navigate = useNavigate();
+
+  const handleProfileClick = (e) => {
+    setProfileAnchorEl(e.currentTarget);
+  };
+
+  const handleProfileClose = (e) => {
+    setProfileAnchorEl(null);
+  };
 
   const handleLogout = () => {
     axiosInstance
@@ -128,23 +146,25 @@ function Navbar() {
                       justifyContent: "center",
                     }}>
                     <Box mr={theme.spacing(2)}>
-                      <Tooltip title="Profile">
-                        <Link
-                          to="/profile"
-                          style={{
-                            textDecoration: "none",
-                            color: "inherit",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "flex-start",
-                            flex: "1",
-                          }}>
-                          <NavItem>{username}</NavItem>
-                        </Link>
-                      </Tooltip>
-                    </Box>
-                    <Box ml={theme.spacing(2)}>
-                      <NavItem onClick={handleLogout}>Logout</NavItem>
+                      <NavItem onClick={handleProfileClick}>{username}</NavItem>
+                      {profileAnchorEl && (
+                        <Menu
+                          anchorEl={profileAnchorEl}
+                          open={profileOpen}
+                          onClose={handleProfileClose}>
+                          <MenuItem
+                            onClick={() => {
+                              handleProfileClose();
+                              navigate("/profile");
+                            }}>
+                            Profile
+                          </MenuItem>
+                          <MenuItem onClick={handleProfileClose}>
+                            My account
+                          </MenuItem>
+                          <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                        </Menu>
+                      )}
                     </Box>
                   </Box>
                 ) : (
