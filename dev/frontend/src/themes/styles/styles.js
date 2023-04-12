@@ -16,7 +16,5 @@ export const defaultStyles = {
 export const pageStyles = {
   width: "100%",
   background: "#F7FAFC",
-  height: "45vh",
-  minHeight: "350px",
-  maxHeight: "800px",
+  minHeight: "100vh",
 };
