@@ -19,7 +19,8 @@ BACKEND TESTING
 
 3. Run "node server.js" 
 
-4. Go to your browser and type in the address: localhost:3000
+4. Go to your browser and type in the address: localhost:8000
+   You should see the message: 'app is listening on port 8000'
 
-5. Test the different endpoints defined in server.js (such as localhost:3000/aboutus)
+5. Test the different endpoints defined in server.js (such as localhost:8000/aboutus)
    Please note that some routes (such as api/users) will not be testable without database credentials
