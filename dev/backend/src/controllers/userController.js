@@ -159,11 +159,6 @@ const getPlansByUserId = asyncHandler(async (req, res) => {
   
 });
 
-// @desc    Update username
-// @route   PUT /api/users/update-username
-// @access  Private
-const updateUsername = asyncHandler(async (req, res) => {});
-
 // @desc    Update user password
 // @route   PUT /api/users/update-password
 // @access  Private
@@ -171,10 +166,47 @@ const updatePassword = asyncHandler(async (req, res) => {});
 
 const updateEmail = asyncHandler(async (req, res) => {});
 
+
+// @desc    Update username
+// @route   PUT /api/users/update-username
+// @access  Private
+// Sources: Alan Luu, Taylor Trinidad, Jeremy Esch
+const updateUsername = asyncHandler(async (req, res) => {
+  const { id, newUsername } = req.body;
+
+  const { rows: checkUser } = await pool.query(queries.getUserById, [id]);
+  if (!checkUser?.length) {
+    res.send("User does not exist in our database, sorry");
+  }
+
+  try {
+    await pool.query(queries.updateUser, [newUsername, id]);
+    res.status(200).send("User updated successfully")
+  } catch (e) {
+    console.error(e);
+    res.status(500).send("There was a problem with updating the user, see console for more details");
+  }
+});
+
+
 // @desc    Delete user
 // @route   DELETE /api/users/:userid
 // @access  Private
-const deleteUser = asyncHandler(async (req, res) => {});
+// Sources: Alan Luu, Taylor Trinidad, Jeremy Esch
+const deleteUser = asyncHandler(async (req, res) => {
+  const id = parseInt(req.params.userid);
+  const { rows: userRows } = await pool.query(queries.getUserById, [id]);
+  if (!userRows?.length) {
+    res.send("User does not exist in our database, sorry");
+  }
+  try {
+    await pool.query(queries.deleteUser, [id]);
+    res.status(200).send("User removed successfully");
+  } catch (e) {
+    console.error(e);
+    res.status(500).send("There was a problem with deleting the user, see console for more details");
+  }
+});
 
 module.exports = {
   getUsers,
