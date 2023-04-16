@@ -179,10 +179,7 @@ const updateUsername = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Update user password
-// @route   PUT /api/users/update-password
-// @access  Private
-const updatePassword = asyncHandler(async (req, res) => {});
+
 // @desc    Update password
 // @route   PUT /api/users/update-password
 // @access  Private
