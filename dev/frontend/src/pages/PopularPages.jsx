@@ -1,6 +1,6 @@
 import React from "react";
 import { ThemeProvider, Box, Typography } from "@mui/material";
-import theme from "../themes/theme";
+import { theme } from "../themes/theme";
 
 function PopularPages() {
   return (

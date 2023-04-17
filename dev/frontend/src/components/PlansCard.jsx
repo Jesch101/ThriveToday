@@ -9,7 +9,7 @@ import {
   ListItemIcon,
 } from "@mui/material";
 import LikeIndicator from "./LikeIndicator";
-import theme from "../themes/theme";
+import { theme } from "../themes/theme";
 
 function PlansCard({ userPlanData }) {
   return (

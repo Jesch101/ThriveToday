@@ -1,6 +1,5 @@
 import React from "react";
 import { Typography, Paper } from "@mui/material";
-import theme from "../themes/theme";
 
 function LikeIndicator({ likes }) {
   return (

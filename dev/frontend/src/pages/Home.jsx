@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import CenterBox from "../components/CenterBox";
-import theme from "../themes/theme";
+import { theme } from "../themes/theme";
 import HoverCard from "../components/HoverCard";
 import { Link } from "react-router-dom";
 

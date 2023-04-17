@@ -30,7 +30,7 @@ function AddPlanDialogue() {
       <Button
         variant="contained"
         size="medium"
-        sx={{ height: "35px" }}
+        sx={{ height: "35px", borderRadius: "25px" }}
         disableElevation
         onClick={handleClickOpen}>
         Add Plan
