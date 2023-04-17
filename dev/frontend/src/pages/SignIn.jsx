@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { ThemeProvider } from "@mui/material/styles";
-import theme from "../themes/theme";
+import { theme } from "../themes/theme";
 import {
   Avatar,
   Button,

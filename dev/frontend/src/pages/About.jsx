@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import theme from "../themes/theme";
+import { theme } from "../themes/theme";
 import { Box, ThemeProvider, Typography, Fade } from "@mui/material";
 
 function About() {

@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import theme from "../themes/theme";
+import { theme } from "../themes/theme";
 import { ThemeProvider, Box } from "@mui/material";
 
 const loadingContainer = {

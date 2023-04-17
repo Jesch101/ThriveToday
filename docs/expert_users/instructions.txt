@@ -12,15 +12,14 @@ git clone https://github.com/Jesch101/ThriveToday.git
 
 6. The React project should open up to your local host http://localhost:3000/ .
 
+ESSENTIAL STEP:
+7. Under the file dev/frontend/axios.js , ensure that the baseURL constant is set to 
+"http://143.198.64.92:8000/api", and that the localhost URL is commented out.
+
+
 BACKEND TESTING 
-1. Change to the "backend" directory under ThriveToday/dev/backend/
+1. At the moment the backend is being hosted on DigitalOcean in a docker container. In order 
+to test/confirm the backend is working, simply follow the instructions to run the frontend and 
+go through the website through actions such as: register new account, log in to account, log out, 
+and try to log in with an account that doesn't exist.
 
-2. Run "npm i" under the backend directory to install the necessary node packages.
-
-3. Run "node server.js" 
-
-4. Go to your browser and type in the address: localhost:8000
-   You should see the message: 'app is listening on port 8000'
-
-5. Test the different endpoints defined in server.js (such as localhost:8000/aboutus)
-   Please note that some routes (such as api/users) will not be testable without database credentials
