@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Typography, ThemeProvider, Container } from "@mui/material";
-import theme from "../themes/theme";
+import { theme } from "../themes/theme";
 
 function Footer() {
   return (

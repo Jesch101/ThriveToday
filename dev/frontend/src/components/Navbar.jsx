@@ -7,7 +7,7 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
-import theme from "../themes/theme";
+import { theme } from "../themes/theme";
 import logo from "../assets/logo.svg";
 import { Link } from "react-router-dom";
 import CenterBox from "../components/CenterBox";
