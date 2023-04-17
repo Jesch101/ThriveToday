@@ -16,8 +16,10 @@ ESSENTIAL STEP:
 7. Under the file dev/frontend/axios.js , ensure that the baseURL constant is set to 
 "http://143.198.64.92:8000/api", and that the localhost URL is commented out.
 
+
 BACKEND TESTING 
 1. At the moment the backend is being hosted on DigitalOcean in a docker container. In order 
 to test/confirm the backend is working, simply follow the instructions to run the frontend and 
 go through the website through actions such as: register new account, log in to account, log out, 
 and try to log in with an account that doesn't exist.
+
