@@ -219,16 +219,17 @@ const getTopTen = asyncHandler(async (req, res) => {
 
 const search = asyncHandler(async (req, res) => {
   console.log("... Searching...");
-  let term = req.body; 
+  let { term } = req.body; 
   try {
-    console.log("... Searching...");
     const { rows } = await pool.query(queries.search, [term]);
-    console.log("... Searching...");
+    console.log(term);
     if(rows.length == 0) {
+      console.log("none");
       res.status(204).send("No Results Found");
     } 
     else {
-      res.status(200).send(rows);
+      console.log("yay");
+      res.status(200).json(rows);
     }
   } catch (e) {
     res.status(500).send("Server error");
