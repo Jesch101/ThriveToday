@@ -75,7 +75,15 @@ const addPost = asyncHandler(async (req, res) => {
 const addTopic = asyncHandler(async (req, res) => {
   const postid = parseInt(req.params.postid);
   const { topic_title, content } = req.body;
-  console.log("Adding topic.....");
+
+  let userid = req.session?.userID;
+  const authorID = await pool.query(queries.getPlanAuthor, [postid]);
+
+  if (userid != authorID) // If user is not the author
+  {
+    res.status(403).send("No permissions to edit");
+    return;
+  }
 
   pool.query(
     queries.addTopic,
@@ -93,9 +101,18 @@ const addTopic = asyncHandler(async (req, res) => {
 // @access  Private
 const addSubtopic = asyncHandler(async (req, res) => {
   const topicid = parseInt(req.params.topicid);
+  const postid = parseInt(req.params.postid); 
+
+  let userid = req.session?.userID;
+  const authorID = await pool.query(queries.getPlanAuthor, [postid]);
+
+  if (userid != authorID) // If user is not the author
+  {
+    res.status(403).send("No permissions to edit");
+    return;
+  }
 
   const { subtopic_title, content } = req.body;
-  console.log("Adding subtopic.....");
 
   pool.query(
     queries.addSubtopic,
@@ -218,17 +235,14 @@ const getTopTen = asyncHandler(async (req, res) => {
 });
 
 const search = asyncHandler(async (req, res) => {
-  console.log("... Searching...");
   let { term } = req.body; 
   try {
     const { rows } = await pool.query(queries.search, [term]);
     console.log(term);
     if(rows.length == 0) {
-      console.log("none");
       res.status(204).send("No Results Found");
     } 
     else {
-      console.log("yay");
       res.status(200).json(rows);
     }
   } catch (e) {
