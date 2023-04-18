@@ -33,6 +33,8 @@ const decPostLikes = "UPDATE posts SET likes = likes - 1 WHERE postid = $1";
 const unlikePost = "DELETE FROM likes WHERE postid = $1 AND userid = $2";
 const getPostLikes = "SELECT * FROM likes WHERE postid = $1";
 
+const search = "SELECT * FROM posts WHERE post_title LIKE '%'+ $1 +'%'";
+
 module.exports = {
     getUsers,
     getUserById,
@@ -67,4 +69,5 @@ module.exports = {
     decPostLikes,
     unlikePost,
     getPostLikes,
+    search,
 };

@@ -137,7 +137,7 @@ const editPlan = asyncHandler(async (req, res) => {
   const post_title = req.body;
 
   try {
-    const authorID = await pool.query(queries.getPlanAuthor, [postid])
+    const authorID = await pool.query(queries.getPlanAuthor, [postid]);
     if (id != authorID) // If user is not the author
     {
       res.status(403).send("No permissions to edit");
@@ -164,7 +164,7 @@ const editTopic = asyncHandler(async (req, res) => {
   const { topic_title, content } = req.body;
 
   try {
-    const authorID = await pool.query(queries.getPlanAuthor, [postid])
+    const authorID = await pool.query(queries.getPlanAuthor, [postid]);
     if (id != authorID) // If user is not the author
     {
       res.status(403).send("No permissions to edit");
@@ -192,7 +192,7 @@ const editSubtopic = asyncHandler(async (req, res) => {
   const { subtopic_title, content } = req.body;
 
   try {
-    const authorID = await pool.query(queries.getPlanAuthor, [postid])
+    const authorID = await pool.query(queries.getPlanAuthor, [postid]);
     if (id != authorID) // If user is not the author
     {
       res.status(403).send("No permissions to edit");
@@ -213,6 +213,24 @@ const getTopTen = asyncHandler(async (req, res) => {
   res.status(200).json(rows);  
 });
 
+const search = asyncHandler(async (req, res) => {
+  console.log("... Searching...");
+  let term = req.body; 
+  try {
+    console.log("... Searching...");
+    const { rows } = await pool.query(queries.search, [term]);
+    console.log("... Searching...");
+    if(rows.length == 0) {
+      res.status(204).send("No Results Found");
+    } 
+    else {
+      res.status(200).send(rows);
+    }
+  } catch (e) {
+    res.status(500).send("Server error");
+  }
+});
+
 module.exports = {
   getPlans,
   getPlanById,
@@ -226,4 +244,5 @@ module.exports = {
   editTopic,
   editSubtopic,
   getTopTen,
+  search,
 };
