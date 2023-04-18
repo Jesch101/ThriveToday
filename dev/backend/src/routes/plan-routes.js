@@ -13,6 +13,10 @@ const {
   editSubtopic,
   getTopTen,
   search,
+  getMental,
+  getEducation,
+  getPhysical,
+  getOther,
 } = require("../controllers/planController");
 const { requireLogin } = require("../middleware/authMiddleware");
 const router = Router();
@@ -22,6 +26,12 @@ router.get("/", getPlans);
 router.get("/top-plans", getTopTen);
 
 router.get("/search", search);
+
+//Plan Tags
+router.get("/mental", getMental);
+router.get("/education", getEducation);
+router.get("/physical", getPhysical);
+router.get("/other", getOther);
 
 router.get("/:postid", getPlanById); // Should show all post details
 router.get("/:postid/:topicid", getTopicById)

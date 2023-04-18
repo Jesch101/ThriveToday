@@ -18,6 +18,11 @@ const getTopTen = "SELECT * FROM posts ORDER BY likes DESC limit 10";
 const getRecentPlansByUserId = "SELECT * FROM posts WHERE userid = $1 ORDER BY date_created DESC LIMIT 5";
 const getPlansByUserId = "SELECT * FROM posts WHERE userid = $1 ORDER BY date_created DESC";
 
+const getMental = "SELECT * FROM posts WHERE tag = 'Mental'";
+const getEducation = "SELECT * FROM posts WHERE tag = 'Education'";
+const getPhysical = "SELECT * FROM posts WHERE tag = 'Physical'";
+const getOther = "SELECT * FROM posts WHERE tag = 'Other'";
+
 const addPost = "INSERT INTO posts (userid, post_title, date_created, tag) VALUES ($1, $2, $3, $4)";
 const addTopic = "INSERT INTO topics (postid, topic_title, content) VALUES ($1, $2, $3)";
 const addSubtopic = "INSERT INTO subtopics (topicid, subtopic_title, content) VALUES ($1, $2, $3)";
@@ -54,6 +59,11 @@ module.exports = {
     getTopTen,
     getRecentPlansByUserId,
     getPlansByUserId,
+
+    getMental,
+    getEducation,
+    getPhysical,
+    getOther,
 
     addPost,
     addTopic,

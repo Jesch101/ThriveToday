@@ -250,6 +250,43 @@ const search = asyncHandler(async (req, res) => {
   }
 });
 
+const getMental = asyncHandler(async (req, res) => {
+  try {
+    const { rows } = await pool.query(queries.getMental);
+    res.status(200).json(rows);  
+  } catch (e) {
+    res.status(500).send("Server error");
+  }
+});
+
+const getEducation = asyncHandler(async (req, res) => {
+  try{
+    const { rows } = await pool.query(queries.getEducation);
+    res.status(200).json(rows); 
+  } catch (e) {
+    res.status(500).send("Server error");
+  }
+});
+
+const getPhysical = asyncHandler(async (req, res) => {
+  try{
+    const { rows } = await pool.query(queries.getPhysical);
+    res.status(200).json(rows);  
+  } catch (e) {
+    res.status(500).send("Server error");
+  }
+
+});
+
+const getOther= asyncHandler(async (req, res) => {
+  try {
+    const { rows } = await pool.query(queries.getOther);
+    res.status(200).json(rows);  
+  } catch (e) {
+    res.status(500).send("Server error");
+  }
+});
+
 module.exports = {
   getPlans,
   getPlanById,
@@ -264,4 +301,8 @@ module.exports = {
   editSubtopic,
   getTopTen,
   search,
+  getMental,
+  getEducation,
+  getPhysical,
+  getOther,
 };
