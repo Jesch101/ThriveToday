@@ -52,11 +52,15 @@ const getSubtopicById = asyncHandler(async (req, res) => {
 // @access  Private
 const addPost = asyncHandler(async (req, res) => {
   let userid = req.session?.userID;
-  const { post_title, datecreated} = req.body;
+  const { post_title, datecreated, tag} = req.body;
+  let lowerTag = tag.toLowerCase();
+  if((lowerTag != 'mental') | (lowerTag != 'physical') | (lowerTag != 'education') | (lowerTag != 'other')){
+    // res status send "Please select an appropriate tag name"
+  }
 
   pool.query(
     queries.addPost,
-    [userid, post_title, datecreated],
+    [userid, post_title, datecreated, tag],
     (error, results) => {
       if (error) throw error;
       res.status(201).send("Post added successfully");
