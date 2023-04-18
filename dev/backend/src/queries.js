@@ -27,7 +27,7 @@ const addPost = "INSERT INTO posts (userid, post_title, date_created, tag) VALUE
 const addTopic = "INSERT INTO topics (postid, topic_title, content) VALUES ($1, $2, $3)";
 const addSubtopic = "INSERT INTO subtopics (topicid, subtopic_title, content) VALUES ($1, $2, $3)";
 
-const editPost = "UPDATE posts SET post_title = $1 WHERE postid = $2"; // Also allow to change tag
+const editPost = "UPDATE posts SET post_title = $1, tag = $2  WHERE postid = $3"; // Also allow to change tag
 const editTopic = "UPDATE topics SET topic_title = $1, content = $2 WHERE postid = $3 AND topicid = $4";
 const editSubtopic = "UPDATE subtopics SET subtopic_title = $1, content = $2 WHERE topicid = $3 AND subtopicid = $4";
 

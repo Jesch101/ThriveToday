@@ -52,15 +52,11 @@ const getSubtopicById = asyncHandler(async (req, res) => {
 // @access  Private
 const addPost = asyncHandler(async (req, res) => {
   let userid = req.session?.userID;
-  const { post_title, datecreated, tag} = req.body;
-  let lowerTag = tag.toLowerCase();
-  if((lowerTag != 'mental') | (lowerTag != 'physical') | (lowerTag != 'education') | (lowerTag != 'other')){
-    // res status send "Please select an appropriate tag name"
-  }
+  const {post_title, date_created, tag} = req.body;
 
   pool.query(
     queries.addPost,
-    [userid, post_title, datecreated, tag],
+    [userid, post_title, date_created, tag],
     (error, results) => {
       if (error) throw error;
       res.status(201).send("Post added successfully");
@@ -153,9 +149,10 @@ const likePost = asyncHandler(async (req, res) => {
 // @access  Public
 const editPlan = asyncHandler(async (req, res) => {
   
+  // Add tag changing option
   let id = req.session?.userID;
   const postid = parseInt(req.params.postid);
-  const post_title = req.body;
+  const {post_title, tag} = req.body;
 
   try {
     const authorID = await pool.query(queries.getPlanAuthor, [postid]);
@@ -164,7 +161,7 @@ const editPlan = asyncHandler(async (req, res) => {
       res.status(403).send("No permissions to edit");
       return;
     } else { // User is the author, change data
-      pool.query(queries.editPost, [post_title, postid]);
+      pool.query(queries.editPost, [post_title, tag, postid]);
       res.status(200).send("Post has been updated");
     }
   } catch (e) {
