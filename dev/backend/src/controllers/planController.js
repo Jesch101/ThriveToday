@@ -21,7 +21,7 @@ const getPlanById = asyncHandler(async (req, res) => {
     if (error) {
       throw error;
     }
-    res.status(200).json(results.rows);
+    res.status(200).json(results.rows[0]);
   });
 });
 
@@ -33,16 +33,14 @@ const getTopicById = asyncHandler(async (req, res) => {
   const topicid = parseInt(req.params.topicid);
   try {
     const { rows } = await pool.query(queries.getTopicById, [topicid, postid]);
-    if( rows.length == 0) {
+    if (rows.length == 0) {
       res.status(204).send("Topic not found");
-    }
-    else {
+    } else {
       res.status(200).json(rows);
     }
-  }  catch (e) {
+  } catch (e) {
     res.status(500).send("Server error");
   }
-
 });
 
 // @desc    Get subtopic by subtopic ID
@@ -53,11 +51,14 @@ const getSubtopicById = asyncHandler(async (req, res) => {
   const topicid = parseInt(req.params.topicid);
   const subtopicid = parseInt(req.params.subtopicid);
   try {
-    const { rows } = await pool.query(queries.getSubtopicById, [postid, topicid, subtopicid]);
-    if( rows.length == 0) {
+    const { rows } = await pool.query(queries.getSubtopicById, [
+      postid,
+      topicid,
+      subtopicid,
+    ]);
+    if (rows.length == 0) {
       res.status(204).send("Topic not found");
-    }
-    else {
+    } else {
       res.status(200).json(rows);
     }
   } catch (e) {
@@ -71,7 +72,7 @@ const getSubtopicById = asyncHandler(async (req, res) => {
 const addPost = asyncHandler(async (req, res) => {
   let userid = req.session?.userID;
 
-  const {post_title, date_created, tag} = req.body;
+  const { post_title, date_created, tag } = req.body;
 
   pool.query(
     queries.addPost,
@@ -92,8 +93,8 @@ const addTopic = asyncHandler(async (req, res) => {
 
   let id = req.session?.userID;
   const { rows } = await pool.query(queries.getPlanById, [postid]);
-  if (id != rows[0].userid) // If user is not the author
-  {
+  if (id != rows[0].userid) {
+    // If user is not the author
     res.status(403).send("No permissions to edit");
     return;
   }
@@ -114,12 +115,12 @@ const addTopic = asyncHandler(async (req, res) => {
 // @access  Private
 const addSubtopic = asyncHandler(async (req, res) => {
   const topicid = parseInt(req.params.topicid);
-  const postid = parseInt(req.params.postid); 
+  const postid = parseInt(req.params.postid);
 
   let id = req.session?.userID;
   const { rows } = await pool.query(queries.getPlanById, [postid]);
-  if (id != rows[0].userid) // If user is not the author
-  {
+  if (id != rows[0].userid) {
+    // If user is not the author
     res.status(403).send("No permissions to edit");
     return;
   }
@@ -164,21 +165,20 @@ const likePost = asyncHandler(async (req, res) => {
 // @route   PATCH /api/plans/:postid/edit
 // @access  Public
 const editPlan = asyncHandler(async (req, res) => {
-
-  
   // Add tag changing option
 
   let id = req.session?.userID;
   const postid = parseInt(req.params.postid);
-  const {post_title, tag} = req.body;
+  const { post_title, tag } = req.body;
 
   try {
     const { rows } = await pool.query(queries.getPlanById, [postid]);
-    if (id != rows[0].userid) // If user is not the author
-    {
+    if (id != rows[0].userid) {
+      // If user is not the author
       res.status(403).send("No permissions to edit");
       return;
-    } else { // User is the author, change data
+    } else {
+      // User is the author, change data
       pool.query(queries.editPost, [post_title, tag, postid]);
       res.status(200).send("Post has been updated");
     }
@@ -199,8 +199,8 @@ const editTopic = asyncHandler(async (req, res) => {
 
   try {
     const { rows } = await pool.query(queries.getPlanById, [postid]);
-    if (id != rows[0].userid) // If user is not the author
-    {
+    if (id != rows[0].userid) {
+      // If user is not the author
       res.status(403).send("No permissions to edit");
       return;
     } else {
@@ -226,8 +226,8 @@ const editSubtopic = asyncHandler(async (req, res) => {
 
   try {
     const { rows } = await pool.query(queries.getPlanById, [postid]);
-    if (id != rows[0].userid) // If user is not the author
-    {
+    if (id != rows[0].userid) {
+      // If user is not the author
       res.status(403).send("No permissions to edit");
       return;
     } else {
@@ -258,14 +258,13 @@ const getTopTen = asyncHandler(async (req, res) => {
 // @route   GET /api/plans/search
 // @access  Public
 const search = asyncHandler(async (req, res) => {
-  let { term } = req.body; 
+  let { term } = req.body;
   try {
     const { rows } = await pool.query(queries.search, [term]);
     console.log(term);
-    if(rows.length == 0) {
+    if (rows.length == 0) {
       res.status(204).send("No Results Found");
-    } 
-    else {
+    } else {
       res.status(200).json(rows);
     }
   } catch (e) {
@@ -279,7 +278,7 @@ const search = asyncHandler(async (req, res) => {
 const getMental = asyncHandler(async (req, res) => {
   try {
     const { rows } = await pool.query(queries.getMental);
-    res.status(200).json(rows);  
+    res.status(200).json(rows);
   } catch (e) {
     res.status(500).send("Server error");
   }
@@ -289,9 +288,9 @@ const getMental = asyncHandler(async (req, res) => {
 // @route   GET /api/plans/education
 // @access  Public
 const getEducation = asyncHandler(async (req, res) => {
-  try{
+  try {
     const { rows } = await pool.query(queries.getEducation);
-    res.status(200).json(rows); 
+    res.status(200).json(rows);
   } catch (e) {
     res.status(500).send("Server error");
   }
@@ -301,22 +300,21 @@ const getEducation = asyncHandler(async (req, res) => {
 // @route   GET /api/plans/physical
 // @access  Public
 const getPhysical = asyncHandler(async (req, res) => {
-  try{
+  try {
     const { rows } = await pool.query(queries.getPhysical);
-    res.status(200).json(rows);  
+    res.status(200).json(rows);
   } catch (e) {
     res.status(500).send("Server error");
   }
-
 });
 
 // @desc    Gets all plans with the Other tag
 // @route   GET /api/plans/other
 // @access  Public
-const getOther= asyncHandler(async (req, res) => {
+const getOther = asyncHandler(async (req, res) => {
   try {
     const { rows } = await pool.query(queries.getOther);
-    res.status(200).json(rows);  
+    res.status(200).json(rows);
   } catch (e) {
     res.status(500).send("Server error");
   }
@@ -328,16 +326,16 @@ const getOther= asyncHandler(async (req, res) => {
 const deletePost = asyncHandler(async (req, res) => {
   let id = req.session?.userID;
   //let { id } = req.body;
-  
-  const postid = parseInt(req.params.postid); 
+
+  const postid = parseInt(req.params.postid);
 
   const { rows } = await pool.query(queries.getPlanById, [postid]);
-  if (id != rows[0].userid) // If user is not the author
-  {
+  if (id != rows[0].userid) {
+    // If user is not the author
     res.status(403).send("No permissions to delete");
     return;
   }
-  
+
   try {
     await pool.query(queries.deletePostByPostId, [postid]);
     await pool.query(queries.deleteTopicByPostId, [postid]);
