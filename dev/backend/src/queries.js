@@ -22,18 +22,19 @@ const getRecentPlansByUserId =
 const getPlansByUserId =
   "SELECT * FROM posts WHERE userid = $1 ORDER BY date_created DESC";
 
-const addPost =
-  "INSERT INTO posts (userid, post_title, date_created) VALUES ($1, $2, $3) RETURNING postid";
-const addTopic =
-  "INSERT INTO topics (postid, topic_title, content) VALUES ($1, $2, $3)";
-const addSubtopic =
-  "INSERT INTO subtopics (topicid, subtopic_title, content) VALUES ($1, $2, $3)";
 
-const editPost = "UPDATE posts SET post_title = $1 WHERE postid = $2";
-const editTopic =
-  "UPDATE topics SET topic_title = $1, content = $2 WHERE postid = $3 AND topicid = $4";
-const editSubtopic =
-  "UPDATE subtopics SET subtopic_title = $1, content = $2 WHERE topicid = $3 AND subtopicid = $4";
+const getMental = "SELECT * FROM posts WHERE tag = 'Mental'";
+const getEducation = "SELECT * FROM posts WHERE tag = 'Education'";
+const getPhysical = "SELECT * FROM posts WHERE tag = 'Physical'";
+const getOther = "SELECT * FROM posts WHERE tag = 'Other'";
+
+const addPost = "INSERT INTO posts (userid, post_title, date_created, tag) VALUES ($1, $2, $3, $4)";
+const addTopic = "INSERT INTO topics (postid, topic_title, content) VALUES ($1, $2, $3)";
+const addSubtopic = "INSERT INTO subtopics (topicid, subtopic_title, content) VALUES ($1, $2, $3)";
+
+const editPost = "UPDATE posts SET post_title = $1, tag = $2  WHERE postid = $3"; // Also allow to change tag
+const editTopic = "UPDATE topics SET topic_title = $1, content = $2 WHERE postid = $3 AND topicid = $4";
+const editSubtopic = "UPDATE subtopics SET subtopic_title = $1, content = $2 WHERE topicid = $3 AND subtopicid = $4";
 
 const hasUserLikedPost =
   "SELECT * FROM likes WHERE postid = $1 AND userid = $2";
@@ -42,6 +43,8 @@ const incPostLikes = "UPDATE posts SET likes = likes + 1 WHERE postid = $1";
 const decPostLikes = "UPDATE posts SET likes = likes - 1 WHERE postid = $1";
 const unlikePost = "DELETE FROM likes WHERE postid = $1 AND userid = $2";
 const getPostLikes = "SELECT * FROM likes WHERE postid = $1";
+
+const search = "SELECT * FROM posts WHERE LOWER(post_title) LIKE LOWER('%' || $1 || '%')";
 
 module.exports = {
   getUsers,
@@ -63,18 +66,24 @@ module.exports = {
   getRecentPlansByUserId,
   getPlansByUserId,
 
-  addPost,
-  addTopic,
-  addSubtopic,
+    getMental,
+    getEducation,
+    getPhysical,
+    getOther,
 
-  editPost,
-  editTopic,
-  editSubtopic,
+    addPost,
+    addTopic,
+    addSubtopic,
+    
+    editPost,
+    editTopic,
+    editSubtopic,
 
-  hasUserLikedPost,
-  likePost,
-  incPostLikes,
-  decPostLikes,
-  unlikePost,
-  getPostLikes,
+    hasUserLikedPost,
+    likePost,
+    incPostLikes,
+    decPostLikes,
+    unlikePost,
+    getPostLikes,
+    search,
 };

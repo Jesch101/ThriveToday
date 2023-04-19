@@ -123,7 +123,9 @@ const getUserInfo = asyncHandler(async (req, res) => {
 // @access  Private
 const getUserLikes = asyncHandler(async (req, res) => {
   const id = parseInt(req.params.userid);
-  const { rows } = await pool.query(queries.getUserLikes, [id]);
+
+  const { rows } = await pool.query(queries.getUserLikes, [id])
+
   if (rows.length == 0) {
     res.status(200).send("This user has no likes");
   } else {
