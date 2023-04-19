@@ -6,6 +6,7 @@ const {
   getSubtopicById,
   likePost,
   addPost,
+  deletePost,
   addTopic,
   addSubtopic,
   editPlan,
@@ -34,6 +35,7 @@ router.get("/physical", getPhysical);
 router.get("/other", getOther);
 
 router.get("/:postid", getPlanById); // Should show all post details
+router.delete("/:postid", requireLogin, deletePost);
 router.get("/:postid/:topicid", getTopicById)
 router.get("/:postid/:topicid/:subtopicid", getSubtopicById)
 router.put("/:postid/like", requireLogin, likePost);

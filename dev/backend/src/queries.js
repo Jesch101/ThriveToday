@@ -13,8 +13,8 @@ const checkUsernameExists = "SELECT s FROM users s WHERE s.username = $1";
 
 const getPlans = "SELECT * FROM posts";
 const getPlanById = "SELECT * FROM posts WHERE postid = $1";
-const getTopicById = "SELECT * FROM topics WHERE topicid = $1";
-const getSubtopicById = "SELECT * FROM subtopics WHERE subtopicid = $1";
+const getTopicById = "SELECT * FROM topics WHERE topicid = $1 AND postid = $2";
+const getSubtopicById = "SELECT * FROM subtopics WHERE postid = $1 AND topicid = $2 AND subtopicid = $3";
 const getPlanAuthor = "SELECT userid FROM posts WHERE postid = $1";
 const getTopTen = "SELECT * FROM posts ORDER BY likes DESC limit 10";
 const getRecentPlansByUserId =
@@ -30,7 +30,10 @@ const getOther = "SELECT * FROM posts WHERE tag = 'Other'";
 
 const addPost = "INSERT INTO posts (userid, post_title, date_created, tag) VALUES ($1, $2, $3, $4)";
 const addTopic = "INSERT INTO topics (postid, topic_title, content) VALUES ($1, $2, $3)";
-const addSubtopic = "INSERT INTO subtopics (topicid, subtopic_title, content) VALUES ($1, $2, $3)";
+const addSubtopic = "INSERT INTO subtopics (topicid, subtopic_title, content, postid) VALUES ($1, $2, $3, $4)";
+const deletePostByPostId = "DELETE FROM posts WHERE postid = $1";
+const deleteTopicByPostId = "DELETE FROM topics WHERE postid = $1";
+const deleteSubtopicByPostId = "DELETE FROM subtopics WHERE postid = $1";
 
 const editPost = "UPDATE posts SET post_title = $1, tag = $2  WHERE postid = $3"; // Also allow to change tag
 const editTopic = "UPDATE topics SET topic_title = $1, content = $2 WHERE postid = $3 AND topicid = $4";
@@ -74,6 +77,9 @@ module.exports = {
     addPost,
     addTopic,
     addSubtopic,
+    deletePostByPostId,
+    deleteTopicByPostId,
+    deleteSubtopicByPostId,
     
     editPost,
     editTopic,
