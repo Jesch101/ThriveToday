@@ -239,11 +239,17 @@ const editSubtopic = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Get top 10 liked plans
+// @route   GET /api/plans/top-ten
+// @access  Public
 const getTopTen = asyncHandler(async (req, res) => {
   const { rows } = await pool.query(queries.getTopTen);
   res.status(200).json(rows);
 });
 
+// @desc    Searches for the specified term in post titles
+// @route   GET /api/plans/search
+// @access  Public
 const search = asyncHandler(async (req, res) => {
   let { term } = req.body; 
   try {
@@ -260,6 +266,9 @@ const search = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Gets all plans with the Mental tag
+// @route   GET /api/plans/mental
+// @access  Public
 const getMental = asyncHandler(async (req, res) => {
   try {
     const { rows } = await pool.query(queries.getMental);
@@ -269,6 +278,9 @@ const getMental = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Gets all plans with the Education tag
+// @route   GET /api/plans/education
+// @access  Public
 const getEducation = asyncHandler(async (req, res) => {
   try{
     const { rows } = await pool.query(queries.getEducation);
@@ -278,6 +290,9 @@ const getEducation = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Gets all plans with the Physical tag
+// @route   GET /api/plans/physical
+// @access  Public
 const getPhysical = asyncHandler(async (req, res) => {
   try{
     const { rows } = await pool.query(queries.getPhysical);
@@ -288,6 +303,9 @@ const getPhysical = asyncHandler(async (req, res) => {
 
 });
 
+// @desc    Gets all plans with the Other tag
+// @route   GET /api/plans/other
+// @access  Public
 const getOther= asyncHandler(async (req, res) => {
   try {
     const { rows } = await pool.query(queries.getOther);
