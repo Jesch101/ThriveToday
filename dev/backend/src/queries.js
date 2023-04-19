@@ -28,7 +28,7 @@ const getEducation = "SELECT * FROM posts WHERE tag = 'Education'";
 const getPhysical = "SELECT * FROM posts WHERE tag = 'Physical'";
 const getOther = "SELECT * FROM posts WHERE tag = 'Other'";
 
-const addPost = "INSERT INTO posts (userid, post_title, date_created, tag) VALUES ($1, $2, $3, $4)";
+const addPost = "INSERT INTO posts (userid, post_title, date_created, tag) VALUES ($1, $2, $3, $4) RETURNING postid";
 const addTopic = "INSERT INTO topics (postid, topic_title, content) VALUES ($1, $2, $3)";
 const addSubtopic = "INSERT INTO subtopics (topicid, subtopic_title, content, postid) VALUES ($1, $2, $3, $4)";
 const deletePostByPostId = "DELETE FROM posts WHERE postid = $1";
