@@ -19,6 +19,8 @@ import userModel from "./context/userModel";
 import UserContext from "./context/userContext";
 import axiosInstance from "./axios";
 import Loader from "./components/Loader";
+import CreatePlan from "./pages/CreatePlan";
+import ViewPlan from "./pages/ViewPlan";
 
 function App() {
   const [userInfoContext, setUserInfoContext] = useState(userModel);
@@ -82,6 +84,23 @@ function App() {
                       element={<Navigate to="/login" replace />}
                     />
                   )}
+                  {isLoggedIn ? (
+                    <Route
+                      path="/add-plan"
+                      element={
+                        <CreatePlan setBackground={setIsBoxBackground} />
+                      }
+                    />
+                  ) : (
+                    <Route
+                      path="/add-plan"
+                      element={<Navigate to="/login" replace />}
+                    />
+                  )}
+                  <Route
+                    path="view-plan/:planid"
+                    element={<ViewPlan setBackground={setIsBoxBackground} />}
+                  />
                   <Route path="*" element={<Error />} />
                 </Routes>
               )}
