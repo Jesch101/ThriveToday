@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Box,
   Typography,
@@ -11,6 +11,7 @@ import CenterBox from "../components/CenterBox";
 import { theme } from "../themes/theme";
 import HoverCard from "../components/HoverCard";
 import { Link } from "react-router-dom";
+import UserContext from "../context/userContext";
 
 const LinkStyles = {
   color: "inherit",
@@ -18,6 +19,7 @@ const LinkStyles = {
 };
 
 function Home() {
+  const { userInfoContext } = useContext(UserContext);
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -50,7 +52,9 @@ function Home() {
                   </Typography>
                 </Box>
                 <Box pt={theme.spacing(4)}>
-                  <Link to="/sign-up" style={{ textDecoration: "none" }}>
+                  <Link
+                    to={userInfoContext.email ? "/add-plan" : "/sign-up"}
+                    style={{ textDecoration: "none" }}>
                     <Button variant="contained" size="large">
                       Get Started
                     </Button>
@@ -59,7 +63,7 @@ function Home() {
               </Box>
             </Grid>
             <Grid xs={12} md={6}>
-              <CenterBox></CenterBox>
+              <CenterBox />
             </Grid>
           </Grid>
           <Box mt={theme.spacing(6)}>

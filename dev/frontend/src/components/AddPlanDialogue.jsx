@@ -15,7 +15,7 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function AddPlanDialogue() {
+function AddPlanDialogue({ handleSubmit, handleChange }) {
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -53,11 +53,15 @@ function AddPlanDialogue() {
             type="text"
             fullWidth
             variant="standard"
+            onChange={handleChange}
+            autoComplete="off"
+            inputProps={{ maxLength: 50 }}
+            required
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Submit</Button>
+          <Button onClick={handleSubmit}>Submit</Button>
         </DialogActions>
       </Dialog>
     </Box>

@@ -1,15 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { theme } from "../themes/theme";
 import { Box, ThemeProvider, Typography, Grid, Paper } from "@mui/material";
 import UserContext from "../context/userContext";
 import Loader from "../components/Loader";
-import planData from "../data/fake_user_posts.json";
 import likedPlans from "../data/fake_likes.json";
-import PlansCard from "../components/PlansCard";
 import AddPlanDialogue from "../components/AddPlanDialogue";
 import LikesCard from "../components/LikesCard";
+import PlansCard from "../components/PlansCard";
+import axiosInstance from "../axios";
 
-function totalLikes() {
+function totalLikes(planData) {
   let total = 0;
   planData.forEach((plan) => {
     total += plan.likes;
@@ -20,17 +21,48 @@ function totalLikes() {
 function Profile({ setBackground }) {
   const { userInfoContext } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(true);
-  const [userPlanData, setUserPlanData] = useState({});
-
+  const [userPlanData, setUserPlanData] = useState(null);
+  const [newPlanName, setNewPlanName] = useState(null);
+  const navigate = useNavigate();
+  const currentDate = new Date();
   const getUserPlans = () => {
-    setUserPlanData(planData);
-    setIsLoading(false);
+    axiosInstance
+      .get(`users/${userInfoContext?.userid}/all-plans`)
+      .then((res) => {
+        setUserPlanData(res.data);
+      })
+      .catch((err) => {
+        Promise.resolve(err.response);
+      })
+      .then(() => {
+        setIsLoading(false);
+      });
+  };
+
+  const handleNewPlanNameSubmit = (e) => {
+    e.preventDefault();
+    axiosInstance
+      .post("/plans/create", {
+        post_title: newPlanName,
+        datecreated: currentDate,
+      })
+      .then((res) => {
+        navigate(`/view-plan/${res.data.postid}`, {
+          state: { planName: newPlanName },
+        });
+      })
+      .catch((err) => {
+        Promise.resolve(err.response);
+      });
+  };
+
+  const handlePlanNameChange = (e) => {
+    setNewPlanName(e.target.value);
   };
 
   useEffect(() => {
     getUserPlans();
     setBackground(true);
-
     return () => {
       setBackground(false);
     };
@@ -74,7 +106,7 @@ function Profile({ setBackground }) {
                           color: "white",
                         }}>
                         <Typography variant="body1">
-                          {userPlanData?.length}
+                          {userPlanData ? userPlanData?.length : 0}
                         </Typography>
                         <Typography variant="body1">Plans</Typography>
                       </Paper>
@@ -95,9 +127,7 @@ function Profile({ setBackground }) {
                         }}>
                         <Typography
                           variant="body1"
-                          color={theme.palette.primary.main}>
-                          {totalLikes()}
-                        </Typography>
+                          color={theme.palette.primary.main}></Typography>
                         <Typography variant="body1">Likes</Typography>
                       </Paper>
                     </Box>
@@ -128,10 +158,20 @@ function Profile({ setBackground }) {
                           fontWeight="bold">
                           My Plans
                         </Typography>
-                        <AddPlanDialogue />
+                        <AddPlanDialogue
+                          handleSubmit={handleNewPlanNameSubmit}
+                          handleChange={handlePlanNameChange}
+                        />
                       </Box>
-                      {userPlanData && (
+                      {userPlanData ? (
                         <PlansCard userPlanData={userPlanData} />
+                      ) : (
+                        <Typography
+                          variant="h6"
+                          fontWeight="semibold"
+                          py={theme.spacing(1)}>
+                          You have no plans yet!
+                        </Typography>
                       )}
                     </Box>
                   </Grid>

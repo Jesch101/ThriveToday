@@ -3,7 +3,6 @@ import { Grid, Paper, Typography, Box } from "@mui/material";
 import { theme } from "../themes/theme";
 
 function LikesCard({ likedPlans }) {
-  console.log(likedPlans);
   return (
     <Grid container spacing={theme.spacing(3)}>
       {likedPlans.map((plan, index) => {

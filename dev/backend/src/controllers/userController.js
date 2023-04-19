@@ -42,15 +42,17 @@ const getUserById = asyncHandler(async (req, res) => {
 const addUser = asyncHandler(async (req, res) => {
   const { firstname, lastname, email, username, password } = req.body;
   const MIN_PASSWORD_LENGTH = 5;
-  const validEmailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const validEmailRegex =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   if (!validEmailRegex.test(email)) {
     res.status(400).send("Invalid email format.");
     return;
   }
-  const { rows: userExistsRows } = await pool.query(queries.checkUsernameExists, [
-    username
-  ]);
+  const { rows: userExistsRows } = await pool.query(
+    queries.checkUsernameExists,
+    [username]
+  );
   if (userExistsRows?.length) {
     res.status(400).send("Username already exists.");
     return;
@@ -121,11 +123,10 @@ const getUserInfo = asyncHandler(async (req, res) => {
 // @access  Private
 const getUserLikes = asyncHandler(async (req, res) => {
   const id = parseInt(req.params.userid);
-  const { rows } = await pool.query(queries.getUserLikes, [id])
+  const { rows } = await pool.query(queries.getUserLikes, [id]);
   if (rows.length == 0) {
     res.status(200).send("This user has no likes");
-  }
-  else {
+  } else {
     res.status(200).json(rows);
   }
 });
@@ -135,11 +136,10 @@ const getUserLikes = asyncHandler(async (req, res) => {
 // @access  Private
 const getRecentPlansByUserId = asyncHandler(async (req, res) => {
   const id = parseInt(req.params.userid);
-  const { rows } = await pool.query(queries.getRecentPlansByUserId, [id])
+  const { rows } = await pool.query(queries.getRecentPlansByUserId, [id]);
   if (rows.length == 0) {
     res.status(200).send("This user has not created any plans");
-  }
-  else {
+  } else {
     res.status(200).json(rows);
   }
 });
@@ -149,14 +149,12 @@ const getRecentPlansByUserId = asyncHandler(async (req, res) => {
 // @access  Private
 const getPlansByUserId = asyncHandler(async (req, res) => {
   const id = parseInt(req.params.userid);
-  const { rows } = await pool.query(queries.getPlansByUserId, [id])
+  const { rows } = await pool.query(queries.getPlansByUserId, [id]);
   if (rows.length == 0) {
-    res.status(200).send("This user has not created any plans");
-  }
-  else {
+    res.status(204).send("This user has not created any plans");
+  } else {
     res.status(200).json(rows);
   }
-  
 });
 
 // @desc    Update username
@@ -172,10 +170,14 @@ const updateUsername = asyncHandler(async (req, res) => {
 
   try {
     await pool.query(queries.updateUser, [newUsername, id]);
-    res.status(200).send("User updated successfully")
+    res.status(200).send("User updated successfully");
   } catch (e) {
     console.error(e);
-    res.status(500).send("There was a problem with updating the user, see console for more details");
+    res
+      .status(500)
+      .send(
+        "There was a problem with updating the user, see console for more details"
+      );
   }
 });
 
@@ -200,7 +202,11 @@ const deleteUser = asyncHandler(async (req, res) => {
     res.status(200).send("User removed successfully");
   } catch (e) {
     console.error(e);
-    res.status(500).send("There was a problem with deleting the user, see console for more details");
+    res
+      .status(500)
+      .send(
+        "There was a problem with deleting the user, see console for more details"
+      );
   }
 });
 
