@@ -23,8 +23,11 @@ function Profile({ setBackground }) {
   const [isLoading, setIsLoading] = useState(true);
   const [userPlanData, setUserPlanData] = useState(null);
   const [newPlanName, setNewPlanName] = useState(null);
+  const [planTag, setPlanTag] = useState("Other");
+
   const navigate = useNavigate();
-  const currentDate = new Date();
+  const currentDate = new Date().toISOString();
+
   const getUserPlans = () => {
     axiosInstance
       .get(`users/${userInfoContext?.userid}/all-plans`)
@@ -44,12 +47,11 @@ function Profile({ setBackground }) {
     axiosInstance
       .post("/plans/create", {
         post_title: newPlanName,
-        datecreated: currentDate,
+        date_created: currentDate,
+        tag: planTag,
       })
       .then((res) => {
-        navigate(`/view-plan/${res.data.postid}`, {
-          state: { planName: newPlanName },
-        });
+        navigate(`/view-plan/${res.data.postid}`);
       })
       .catch((err) => {
         Promise.resolve(err.response);
@@ -58,6 +60,10 @@ function Profile({ setBackground }) {
 
   const handlePlanNameChange = (e) => {
     setNewPlanName(e.target.value);
+  };
+
+  const handlePlanTagChange = (e) => {
+    setPlanTag(e.target.value);
   };
 
   useEffect(() => {
@@ -161,6 +167,8 @@ function Profile({ setBackground }) {
                         <AddPlanDialogue
                           handleSubmit={handleNewPlanNameSubmit}
                           handleChange={handlePlanNameChange}
+                          handlePlanTagChange={handlePlanTagChange}
+                          planTag={planTag}
                         />
                       </Box>
                       {userPlanData ? (

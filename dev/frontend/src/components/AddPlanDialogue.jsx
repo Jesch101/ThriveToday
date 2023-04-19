@@ -9,13 +9,23 @@ import {
   Button,
   Box,
   Slide,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
+import { theme } from "../themes/theme";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function AddPlanDialogue({ handleSubmit, handleChange }) {
+function AddPlanDialogue({
+  handleSubmit,
+  handleChange,
+  handlePlanTagChange,
+  planTag,
+}) {
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -57,7 +67,20 @@ function AddPlanDialogue({ handleSubmit, handleChange }) {
             autoComplete="off"
             inputProps={{ maxLength: 50 }}
             required
+            sx={{ paddingBottom: theme.spacing(2) }}
           />
+          <FormControl>
+            <InputLabel>Plan Tag</InputLabel>
+            <Select
+              value={planTag}
+              label="Plan Tag"
+              onChange={handlePlanTagChange}>
+              <MenuItem value="Mental">Mental</MenuItem>
+              <MenuItem value="Education">Education</MenuItem>
+              <MenuItem value="Physical">Physical</MenuItem>
+              <MenuItem value="Other">Other</MenuItem>
+            </Select>
+          </FormControl>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

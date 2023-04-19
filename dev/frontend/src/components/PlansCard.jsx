@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -17,11 +18,24 @@ import { theme } from "../themes/theme";
 import axiosInstance from "../axios";
 
 function PlansCard({ userPlanData }) {
-  const handleDelete = () => {
+  const navigate = useNavigate();
+
+  const handleDelete = (postid) => {
     const del = window.confirm("Are you sure you want to delete this plan?");
     if (del) {
-      console.log("delete plan");
+      axiosInstance
+        .delete(`/plans/${postid}`)
+        .then((res) => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          Promise.resolve(err.response);
+        });
     }
+  };
+
+  const handlePlanClick = (plan) => {
+    navigate(`/view-plan/${plan}`);
   };
 
   return (
@@ -39,11 +53,13 @@ function PlansCard({ userPlanData }) {
                           edge="end"
                           aria-label="delete"
                           size="large"
-                          onClick={handleDelete}>
+                          onClick={() => handleDelete(plan.postid)}>
                           <DeleteIcon fontSize="large" />
                         </IconButton>
                       }>
-                      <ListItemButton role="undefined">
+                      <ListItemButton
+                        role="undefined"
+                        onClick={() => handlePlanClick(plan.postid)}>
                         <ListItemIcon sx={{ paddingRight: theme.spacing(3) }}>
                           <LikeIndicator likes={plan.likes} />
                         </ListItemIcon>
