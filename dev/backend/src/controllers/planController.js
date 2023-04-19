@@ -323,7 +323,7 @@ const getOther= asyncHandler(async (req, res) => {
 });
 
 // @desc    Deletes the plan and all topics/subtopics associated
-// @route   GET /api/plans/:postid/delete
+// @route   DELETE /api/plans/:postid
 // @access  Public
 const deletePost = asyncHandler(async (req, res) => {
   let id = req.session?.userID;
