@@ -21,6 +21,7 @@ import axiosInstance from "./axios";
 import Loader from "./components/Loader";
 import CreatePlan from "./pages/CreatePlan";
 import ViewPlan from "./pages/ViewPlan";
+import TagPlans from "./pages/TagPlans";
 
 function App() {
   const [userInfoContext, setUserInfoContext] = useState(userModel);
@@ -68,7 +69,12 @@ function App() {
                     path="/login"
                     element={<SignIn setLoggedIn={setLoggedIn} />}
                   />
-                  <Route path="/popular-plans" element={<PopularPages />} />
+                  <Route
+                    path="/popular-plans"
+                    element={
+                      <PopularPages setBackground={setIsBoxBackground} />
+                    }
+                  />
                   <Route
                     path="/sign-up"
                     element={<SignUp setLoggedIn={setLoggedIn} />}
@@ -98,8 +104,12 @@ function App() {
                     />
                   )}
                   <Route
-                    path="view-plan/:planid"
+                    path="/view-plan/:planid"
                     element={<ViewPlan setBackground={setIsBoxBackground} />}
+                  />
+                  <Route
+                    path="/plans-by-tag/:tag"
+                    element={<TagPlans setBackground={setIsBoxBackground} />}
                   />
                   <Route path="*" element={<Error />} />
                 </Routes>

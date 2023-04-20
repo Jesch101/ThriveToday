@@ -82,7 +82,7 @@ function Home() {
             <Grid container spacing={{ xs: 4 }}>
               <Grid xs={12} md={4}>
                 <CenterBox>
-                  <Link to="/" style={LinkStyles}>
+                  <Link to="/plans-by-tag/physical" style={LinkStyles}>
                     <HoverCard>
                       <CardContent>
                         <CenterBox
@@ -113,7 +113,7 @@ function Home() {
               </Grid>
               <Grid xs={12} md={4}>
                 <CenterBox>
-                  <Link to="/" style={LinkStyles}>
+                  <Link to="/plans-by-tag/mental" style={LinkStyles}>
                     <HoverCard>
                       <CardContent>
                         <CenterBox
@@ -145,7 +145,7 @@ function Home() {
 
               <Grid xs={12} md={4}>
                 <CenterBox>
-                  <Link to="/" style={LinkStyles}>
+                  <Link to="/plans-by-tag/education" style={LinkStyles}>
                     <HoverCard>
                       <CardContent>
                         <CenterBox

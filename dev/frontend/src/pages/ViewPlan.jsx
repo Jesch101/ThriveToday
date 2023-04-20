@@ -77,10 +77,6 @@ function ViewPlan({ setBackground }) {
     };
   }, []);
 
-  if (planData) {
-    console.log(planData);
-  }
-
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
