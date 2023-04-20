@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ThemeProvider, Box, Typography } from "@mui/material";
 import { theme } from "../themes/theme";
 
-function PopularPages() {
+function PopularPages({ setBackground }) {
+  useEffect(() => {
+    setBackground(true);
+    return () => {
+      setBackground(false);
+    };
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <Box
