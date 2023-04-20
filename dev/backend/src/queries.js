@@ -9,8 +9,8 @@ const checkUsernameExists = "SELECT s FROM users s WHERE s.username = $1";
 
 const updateEmail = "UPDATE users SET email = $1 WHERE userid = $2";
 
-const getUserPasswordById = 'SELECT password FROM users WHERE id = $1';
-const updateUserPassword = 'UPDATE users SET password = $1 WHERE id = $2';
+const getUserPasswordById = 'SELECT password FROM users WHERE userid = $1';
+const updateUserPassword = 'UPDATE users SET password = $1 WHERE userid = $2';
 
 const getPlans = "SELECT * FROM posts";
 const getPlanById = "SELECT * FROM posts WHERE postid = $1";
