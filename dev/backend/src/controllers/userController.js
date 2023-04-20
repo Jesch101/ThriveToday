@@ -191,7 +191,6 @@ const updatePassword = asyncHandler(async (req, res) => {
   if (!checkUser?.length) {
     res.send("User does not exist in our database, sorry");
   }
-
   // Retrieve the user's original password hash from the database
   const { rows: user } = await pool.query(queries.getUserPasswordById, [id]);
   const originalPasswordHash = user[0].password;
@@ -201,7 +200,6 @@ const updatePassword = asyncHandler(async (req, res) => {
   if (!isPasswordValid) {
     res.send("Incorrect current password");
   }
-
   // Hash the user's new password and update the password hash in the database
   const newHashedPassword = await bcrypt.hash(newPassword, saltRounds);
   try {
@@ -224,7 +222,6 @@ const updateEmail = asyncHandler(async (req, res) => {
   if (!checkUser?.length) {
     res.send("User does not exist in our database, sorry");
   }
-
   try {
     // If the user exists, update their email
     await pool.query(queries.updateUserEmail, [newEmail, id]);
