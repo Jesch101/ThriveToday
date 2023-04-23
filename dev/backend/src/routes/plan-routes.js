@@ -39,9 +39,9 @@ router.get("/other", getOther);
 router.get("/:postid", getPlanById); // Should show all post details
 router.delete("/:postid", requireLogin, deletePost);
 router.get("/:postid/:topicid", getTopicById);
-router.delete("/:postid/:topicid", deleteTopic);
+router.delete("/:postid/:topicid", requireLogin, deleteTopic);
 router.get("/:postid/:topicid/:subtopicid", getSubtopicById);
-router.delete("/:postid/:topicid/:subtopicid", deleteSubtopic);
+router.delete("/:postid/:topicid/:subtopicid", requireLogin, deleteSubtopic);
 router.put("/:postid/like", requireLogin, likePost);
 
 // Editing functionality
