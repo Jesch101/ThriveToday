@@ -8,7 +8,9 @@ const {
   addPost,
   deletePost,
   addTopic,
+  deleteTopic,
   addSubtopic,
+  deleteSubtopic,
   editPlan,
   editTopic,
   editSubtopic,
@@ -36,8 +38,10 @@ router.get("/other", getOther);
 
 router.get("/:postid", getPlanById); // Should show all post details
 router.delete("/:postid", requireLogin, deletePost);
-router.get("/:postid/:topicid", getTopicById)
-router.get("/:postid/:topicid/:subtopicid", getSubtopicById)
+router.get("/:postid/:topicid", getTopicById);
+router.delete("/:postid/:topicid", deleteTopic);
+router.get("/:postid/:topicid/:subtopicid", getSubtopicById);
+router.delete("/:postid/:topicid/:subtopicid", deleteSubtopic);
 router.put("/:postid/like", requireLogin, likePost);
 
 // Editing functionality

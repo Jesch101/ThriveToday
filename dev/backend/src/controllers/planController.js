@@ -346,6 +346,55 @@ const deletePost = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Deletes a topic and all of it's corresponding subtopics
+// @route   DELETE /api/plans/:postid/:topicid
+// @access  Public
+const deleteTopic = asyncHandler(async (req, res) => {
+  let id = req.session?.userID;
+  // let { id } = req.body;
+  const topicid = parseInt(req.params.topicid);
+  const postid = parseInt(req.params.postid);
+
+  const { rows } = await pool.query(queries.getPlanById, [postid]);
+  if (id != rows[0].userid) {
+    // If user is not the author
+    res.status(403).send("No permissions to delete");
+    return;
+  }
+
+  try {
+    await pool.query(queries.deleteTopic, [topicid]);
+    await pool.query(queries.deleteSubtopicByTopicId, [topicid]);
+    res.status(200).json("Topic and subtopics under it have been deleted");
+  } catch (e) {
+    res.status(500).send("Server error");
+  }
+});
+
+// @desc    Deletes a singular subtopic
+// @route   DELETE /api/plans/:postid/:topicid/:subtopicid
+// @access  Public
+const deleteSubtopic= asyncHandler(async (req, res) => {
+   let id = req.session?.userID;
+   // let { id } = req.body;
+   const subtopicid = parseInt(req.params.subtopicid);
+   const postid = parseInt(req.params.postid);
+ 
+   const { rows } = await pool.query(queries.getPlanById, [postid]);
+   if (id != rows[0].userid) {
+     // If user is not the author
+     res.status(403).send("No permissions to delete");
+     return;
+   }
+ 
+   try {
+     await pool.query(queries.deleteSubtopic, [subtopicid]);
+     res.status(200).json("Subtopic has been deleted");
+   } catch (e) {
+     res.status(500).send("Server error");
+   }
+});
+
 module.exports = {
   getPlans,
   getPlanById,
@@ -365,4 +414,6 @@ module.exports = {
   getPhysical,
   getOther,
   deletePost,
+  deleteTopic,
+  deleteSubtopic,
 };

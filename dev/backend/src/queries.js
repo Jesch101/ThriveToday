@@ -34,6 +34,9 @@ const addSubtopic = "INSERT INTO subtopics (topicid, subtopic_title, content, po
 const deletePostByPostId = "DELETE FROM posts WHERE postid = $1";
 const deleteTopicByPostId = "DELETE FROM topics WHERE postid = $1";
 const deleteSubtopicByPostId = "DELETE FROM subtopics WHERE postid = $1";
+const deleteTopic = "DELETE FROM topics WHERE topicid = $1";
+const deleteSubtopic = "DELETE FROM subtopics WHERE subtopicid = $1";
+const deleteSubtopicByTopicId = "DELETE FROM subtopics WHERE topicid = $1";
 
 const editPost = "UPDATE posts SET post_title = $1, tag = $2  WHERE postid = $3"; // Also allow to change tag
 const editTopic = "UPDATE topics SET topic_title = $1, content = $2 WHERE postid = $3 AND topicid = $4";
@@ -80,6 +83,9 @@ module.exports = {
     deletePostByPostId,
     deleteTopicByPostId,
     deleteSubtopicByPostId,
+    deleteTopic, 
+    deleteSubtopic,
+    deleteSubtopicByTopicId,
     
     editPost,
     editTopic,
