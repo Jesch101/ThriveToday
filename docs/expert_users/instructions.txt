@@ -1,25 +1,46 @@
-FRONTEND TESTING
+PROJECT SETUP:
 1. Download NodeJS from https://nodejs.org/en/download/ 
 
 2. In your terminal, git clone our repository with the following command:
 git clone https://github.com/Jesch101/ThriveToday.git
 
-3. Change to the "frontend" directory under ThriveToday/dev/frontend/
+BACKEND SETUP 
+1. Navigate to the "backend" directory under ThriveToday/dev/backend/
 
-4. Run "npm i" under the frontend directory to install the necessary node packages.
+2. Run "npm i" under the backend directory.
 
-5. Run "npm start" to run the create-react-app start script.
-
-6. The React project should open up to your local host http://localhost:3000/ .
-
-ESSENTIAL STEP:
-7. Under the file dev/frontend/axios.js , ensure that the baseURL constant is set to 
-"http://143.198.64.92:8000/api", and that the localhost URL is commented out.
+3. Run "npm start" to run the nodemon script to start the backend.
 
 
-BACKEND TESTING 
-1. At the moment the backend is being hosted on DigitalOcean in a docker container. In order 
-to test/confirm the backend is working, simply follow the instructions to run the frontend and 
-go through the website through actions such as: register new account, log in to account, log out, 
-and try to log in with an account that doesn't exist.
+FRONTEND SETUP
+1. Change to the "frontend" directory under ThriveToday/dev/frontend/
 
+2. Run "npm i" under the frontend directory to install the necessary node packages.
+
+3. Run "npm start" to run the create-react-app start script.
+
+4. The React project should open up to your local host http://localhost:3000/ .
+
+
+TESTING THE APPLICATION (Option 1)
+- To test the application, start two terminal instances and run "npm start" in both the frontend 
+and backend directories and navigate through the website that opens under http://localhost:3000/.
+
+TESTING THE APPLICATION (Option 2)
+1. Under directory ThriveToday/dev, run "npm i -g concurrently" (make sure to include -g)
+2. Staying in ThriveToday/dev, run "npm run dev", which will concurrently run the frontend and the backend.
+
+(As of 4/23/23)
+-> Test the plan cards at the bottom of the home page. These will link you to pages with a list
+of plans with the same tag under them.
+
+-> Test signing up a new user, logging out (click on username in top right corner), and signing in 
+with the saved credentials.
+
+-> Test creating a new plan. Either click on "Get Started" button in home page, or click on your username
+in the top right of the navbar, then click profile, then click the "Add Plan" button. Both of these actions
+will lead you to a create plan form which will redirect you to your newly made plan page. 
+
+**NOTE**: Editing plan page info is currently in the works, along with the popular plans page. 
+This week's new features/progress is the action of creating a new plan and viewing other plans 
+that have been made by other users with ease.
