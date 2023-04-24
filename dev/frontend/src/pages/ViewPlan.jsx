@@ -10,7 +10,7 @@ import {
   Button,
 } from "@mui/material";
 import { theme } from "../themes/theme";
-import EditIcon from "@mui/icons-material/Edit";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import UserContext from "../context/userContext";
 import axiosInstance from "../axios";
 import Loader from "../components/Loader";
@@ -42,26 +42,32 @@ function ViewPlan({ setBackground }) {
   const [loading, setLoading] = useState(true);
   const [planData, setPlanData] = useState(null);
 
-  const getPlanInfo = (planid) => {
-    axiosInstance
-      .get(`/plans/${planid}`)
-      .then((res) => {
-        let response = res.data;
-        // Plan id does not exist, redirect to error page
-        if (!res.data) {
-          navigate("/*");
-        }
-        // User id is the same so no need for another api call
-        if (response.userid === userInfoContext.userid) {
-          setPlanData({ author: userInfoContext.username, ...response });
-        }
-      })
-      .catch((err) => {
-        Promise.resolve(err.response);
-      })
-      .then(() => {
-        setLoading(false);
-      });
+  const getPlanInfo = async (planid) => {
+    try {
+      const res = await axiosInstance.get(`/plans/${planid}`);
+      if (!res.data) {
+        navigate("/*");
+      }
+      if (res.data.userid === userInfoContext.userid) {
+        setPlanData({ author: userInfoContext.username, ...res.data });
+      } else {
+        const userInfoRes = await getUserInfo(res.data.userid);
+        setPlanData({ author: userInfoRes.data.username, ...res.data });
+      }
+    } catch (err) {
+      Promise.resolve(err.response);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getUserInfo = async (userid) => {
+    try {
+      const res = await axiosInstance.get(`/users/${userid}`);
+      return res;
+    } catch (err) {
+      Promise.resolve(err.response);
+    }
   };
 
   useEffect(() => {
@@ -88,20 +94,36 @@ function ViewPlan({ setBackground }) {
               <Grid container spacing="2">
                 <Grid item xs={12} md={9}>
                   <Stack direction="row">
-                    <Typography variant="h3" sx={{ fontWeight: "500" }}>
+                    <Typography variant="h2" sx={{ fontWeight: "500" }}>
                       {planData && planData.post_title}
                     </Typography>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}>
-                      <IconButton>
-                        <EditIcon />
-                      </IconButton>
-                    </Box>
                   </Stack>
+                  <Box
+                    mt={theme.spacing(1)}
+                    sx={{
+                      border: "2px solid",
+                      borderColor: planData
+                        ? `${tagColor(planData.tag)}`
+                        : "grey",
+                      backgroundColor: planData
+                        ? `${tagColor(planData.tag)}`
+                        : "grey",
+                      borderRadius: "20px",
+                      display: "inline-flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      color: "white",
+                      "&:hover": {
+                        cursor: "pointer",
+                      },
+                    }}>
+                    <Typography
+                      variant="body1"
+                      sx={{ fontWeight: "500" }}
+                      px={theme.spacing(1)}>
+                      {planData && planData.tag}
+                    </Typography>
+                  </Box>
                 </Grid>
                 <Grid item xs={12} md={3}>
                   <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -112,34 +134,17 @@ function ViewPlan({ setBackground }) {
                       Created on:{" "}
                       <b>{planData && formatDate(planData.date_created)}</b>
                     </Typography>
+                    <Stack direction="row">
+                      <IconButton>
+                        <FavoriteBorderIcon />
+                      </IconButton>
+                      <Typography variant="body1">
+                        <b>{planData && planData.likes}</b>
+                      </Typography>
+                    </Stack>
                   </Box>
                 </Grid>
               </Grid>
-
-              <Box
-                mt={theme.spacing(1)}
-                sx={{
-                  border: "2px solid",
-                  borderColor: planData ? `${tagColor(planData.tag)}` : "grey",
-                  backgroundColor: planData
-                    ? `${tagColor(planData.tag)}`
-                    : "grey",
-                  borderRadius: "20px",
-                  display: "inline-flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  color: "white",
-                  "&:hover": {
-                    cursor: "pointer",
-                  },
-                }}>
-                <Typography
-                  variant="body1"
-                  sx={{ fontWeight: "500" }}
-                  px={theme.spacing(1)}>
-                  {planData && planData.tag}
-                </Typography>
-              </Box>
 
               <Box
                 mt={theme.spacing(8)}
