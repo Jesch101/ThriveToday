@@ -161,6 +161,26 @@ const likePost = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Checks if the user has liked the plan
+// @route   GET /api/plans/:postid/like
+// @access  Public
+const checkLiked = asyncHandler(async (req, res) => {
+  const postid = parseInt(req.params.postid);
+  let userid = req.session?.userID;
+  
+  try {
+    const { rows } = await pool.query(queries.hasUserLikedPost, [postid, userid]);
+    if(rows.length  == 0)  {
+      res.status(200).send(false);
+    }
+    else{
+      res.status(200).send(true);
+    }
+  } catch (e) {
+    res.status(500).send("Server error");
+  }
+});
+
 // @desc    Edit plan
 // @route   PATCH /api/plans/:postid/edit
 // @access  Public
@@ -404,6 +424,7 @@ module.exports = {
   addTopic,
   addSubtopic,
   likePost,
+  checkLiked,
   editPlan,
   editTopic,
   editSubtopic,
