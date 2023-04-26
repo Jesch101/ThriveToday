@@ -16,13 +16,18 @@ const getPlans = asyncHandler(async (req, res) => {
 // @route   GET /api/plans/:postid
 // @access  Public
 const getPlanById = asyncHandler(async (req, res) => {
-  const id = parseInt(req.params.postid);
-  pool.query(queries.getPlanById, [id], (error, results) => {
-    if (error) {
-      throw error;
+  const postid = parseInt(req.params.postid);
+    try{
+      let { rows: planDetails } = await pool.query(queries.getPlanById, [postid]);
+      let { rows: topicids } = await pool.query(queries.getTopicIds, [postid]);
+      let { rows: subtopicids } = await pool.query(queries.getSubtopicIds, [postid]);
+      let plan = {
+        planDetails, topicids, subtopicids
+      }
+      res.status(200).json(plan);
+    } catch (e) {
+      res.status(500).send("Server error");
     }
-    res.status(200).json(results.rows[0]);
-  });
 });
 
 // @desc    Get topic by topic ID
