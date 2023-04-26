@@ -183,12 +183,70 @@ const updateUsername = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Update user password
+// @desc    Update password
 // @route   PUT /api/users/update-password
 // @access  Private
-const updatePassword = asyncHandler(async (req, res) => {});
+const updatePassword = asyncHandler(async (req, res) => {
+  const { id, currentPassword, newPassword } = req.body;
 
-const updateEmail = asyncHandler(async (req, res) => {});
+  // First, check if the user exists
+  const { rows: checkUser } = await pool.query(queries.getUserById, [id]);
+  console.log(checkUser)//good way to check when making requests
+  console.log(id)
+  if (!checkUser?.length) {
+    res.status(400).send("User does not exist in our database, sorry");
+    return
+  }
+
+  // Retrieve the user's original password hash from the database
+  const { rows: user } = await pool.query(queries.getUserPasswordById, [id]);
+  const originalPasswordHash = user[0].password;
+
+  // Hash the user's current password and compare it to the original password hash
+  const isPasswordValid = await bcrypt.compare(currentPassword, originalPasswordHash);
+  if (!isPasswordValid) {
+    res.status(400).send("Incorrect current password");
+  }
+
+  let saltRounds = 10;
+  // Hash the user's new password and update the password hash in the database
+  const newHashedPassword = await bcrypt.hash(newPassword, saltRounds);
+  try {
+    await pool.query(queries.updateUserPassword, [newHashedPassword, id]);
+    res.status(200).send("Password updated successfully")
+  } catch (e) {
+    console.error(e);
+    res.status(500).send("There was a problem with updating the password, see console for more details");
+  }
+});
+
+// @desc    Update email
+// @route   PUT /api/users/update-email
+// @access  Private
+const updateEmail = asyncHandler(async (req, res) => {
+  
+  let { id, newEmail } = req.body;
+  id=Number(id);
+  console.log(id,newEmail);
+  console.log(queries.getUserById);
+  // First, check if the user exists
+ 
+    const { rows: checkUser } = await pool.query(queries.getUserById, [id]);
+ console.log(checkUser);
+  if (!checkUser?.length) {
+    res.send("User does not exist in our database, sorry");
+  }
+
+  try {
+    // If the user exists, update their email
+    await pool.query(queries.updateEmail, [newEmail, id]);
+    res.status(200).send("Email updated successfully")
+  } catch (e) {
+    console.error(e);
+    res.status(500).send("There was a problem with updating the email, see console for more details");
+  }
+});
+
 
 // @desc    Delete user
 // @route   DELETE /api/users/:userid
