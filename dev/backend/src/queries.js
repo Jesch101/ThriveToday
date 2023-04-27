@@ -14,7 +14,9 @@ const checkUsernameExists = "SELECT s FROM users s WHERE s.username = $1";
 const getPlans = "SELECT * FROM posts";
 const getPlanById = "SELECT * FROM posts WHERE postid = $1";
 const getTopicById = "SELECT * FROM topics WHERE topicid = $1 AND postid = $2";
+const getTopicIds = "SELECT topicid FROM topics WHERE postid = $1";
 const getSubtopicById = "SELECT * FROM subtopics WHERE postid = $1 AND topicid = $2 AND subtopicid = $3";
+const getSubtopicIds = "SELECT topicid, subtopicid FROM subtopics WHERE postid = $1";
 const getPlanAuthor = "SELECT userid FROM posts WHERE postid = $1";
 const getTopTen = "SELECT * FROM posts ORDER BY likes DESC limit 10";
 const getRecentPlansByUserId =
@@ -66,7 +68,9 @@ module.exports = {
   getPlans,
   getPlanById,
   getTopicById,
+  getTopicIds,
   getSubtopicById,
+  getSubtopicIds,
   getPlanAuthor,
   getTopTen,
   getRecentPlansByUserId,
@@ -99,3 +103,4 @@ module.exports = {
     getPostLikes,
     search,
 };
+
