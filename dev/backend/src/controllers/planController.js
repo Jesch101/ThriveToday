@@ -17,17 +17,56 @@ const getPlans = asyncHandler(async (req, res) => {
 // @access  Public
 const getPlanById = asyncHandler(async (req, res) => {
   const postid = parseInt(req.params.postid);
-    try{
-      let { rows: planDetails } = await pool.query(queries.getPlanById, [postid]);
-      let { rows: topicids } = await pool.query(queries.getTopicIds, [postid]);
-      let { rows: subtopicids } = await pool.query(queries.getSubtopicIds, [postid]);
-      let plan = {
-        planDetails, topicids, subtopicids
-      }
-      res.status(200).json(plan);
-    } catch (e) {
-      res.status(500).send("Server error");
+  try{
+    let { rows: planDetails } = await pool.query(queries.getPlanById, [postid]);
+    let { rows: topicids } = await pool.query(queries.getTopicIds, [postid]);
+    let { rows: subtopicids } = await pool.query(queries.getSubtopicIds, [postid]);
+    let plan = {
+      planDetails, topicids, subtopicids
     }
+    res.status(200).json(plan);
+  } catch (e) {
+    res.status(500).send("Server error");
+  }
+});
+
+// @desc    Get plan by plan ID
+// @route   GET /api/plans/:postid/info
+// @access  Public
+const getPlan = asyncHandler(async (req, res) => {
+  const postid = parseInt(req.params.postid);
+    
+  try{
+    // Get the plan information
+    let { rows: planDetails } = await pool.query(queries.getPlanById, [postid]);
+    const { id, userid, post_title, date_created, likes, tag } = planDetails[0];
+    // Get the username
+    let { rows: user } = await pool.query(queries.getUserById, [planDetails[0].userid]);
+    const author = user[0].username;
+
+    let plan = {
+      postid, author, userid, post_title, date_created, likes, tag
+    };
+
+    // Get topic ids 
+    let { rows: alltopicids } = await pool.query(queries.getTopicIds, [postid]);
+    // Takes topic as input, returns the value of its topicid
+    let topicids = alltopicids.map(topic => topic.topicid);
+    
+    let topics = [];
+    for(let x of topicids) {
+      let { rows: topic } = await pool.query(queries.getTopicById, [x, postid]);
+      let { topicid, topicpostid, topic_title, content } = topic[0];
+      let { rows: subtopics } = await pool.query(queries.getAllSubtopicsOfTopic, [x]);
+      let topicObj = { topicid, postid, topic_title, content, subtopics };
+      topics.push(topicObj);
+    }
+    
+    plan = {...plan, topics}; // Add topics to plan
+    res.status(200).json(plan);
+  } catch (e) {
+    res.status(500).send("Server error");
+  }
 });
 
 // @desc    Get topic by topic ID
@@ -423,6 +462,7 @@ const deleteSubtopic= asyncHandler(async (req, res) => {
 module.exports = {
   getPlans,
   getPlanById,
+  getPlan,
   getTopicById,
   getSubtopicById,
   addPost,

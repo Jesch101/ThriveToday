@@ -17,6 +17,7 @@ const getTopicById = "SELECT * FROM topics WHERE topicid = $1 AND postid = $2";
 const getTopicIds = "SELECT topicid FROM topics WHERE postid = $1";
 const getSubtopicById = "SELECT * FROM subtopics WHERE postid = $1 AND topicid = $2 AND subtopicid = $3";
 const getSubtopicIds = "SELECT topicid, subtopicid FROM subtopics WHERE postid = $1";
+const getAllSubtopicsOfTopic = "SELECT * FROM subtopics WHERE topicid = $1";
 const getPlanAuthor = "SELECT userid FROM posts WHERE postid = $1";
 const getTopTen = "SELECT * FROM posts ORDER BY likes DESC limit 10";
 const getRecentPlansByUserId =
@@ -71,6 +72,7 @@ module.exports = {
   getTopicIds,
   getSubtopicById,
   getSubtopicIds,
+  getAllSubtopicsOfTopic,
   getPlanAuthor,
   getTopTen,
   getRecentPlansByUserId,
