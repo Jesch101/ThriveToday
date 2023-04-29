@@ -13,7 +13,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import UserContext from "../context/userContext";
 import axiosInstance from "../axios";
 import Loader from "../components/Loader";
-import ViewPlanContent from "../components/ViewPlanContent";
+import ViewPlanContent from "../components/PlanView/ViewPlanContent";
 
 function formatDate(dateString) {
   const date = new Date(dateString);
@@ -53,11 +53,20 @@ function ViewPlan({ setBackground }) {
       if (!res.data) {
         navigate("/*");
       }
-      if (res.data.userid === userInfoContext.userid) {
-        setPlanData({ author: userInfoContext.username, ...res.data });
+      if (res.data.planDetails.userid === userInfoContext.userid) {
+        console.log(res.data);
+        setPlanData({
+          author: userInfoContext.username,
+          ...res.data.planDetails,
+          ...res.data,
+        });
       } else {
-        const userInfoRes = await getUserInfo(res.data.userid);
-        setPlanData({ author: userInfoRes.data.username, ...res.data });
+        const userInfoRes = await getUserInfo(res.data.planDetails.userid);
+        setPlanData({
+          author: userInfoRes.data.username,
+          ...res.data.planDetails,
+          ...res.data,
+        });
       }
     } catch (err) {
       Promise.resolve(err.response);
@@ -79,7 +88,7 @@ function ViewPlan({ setBackground }) {
     axiosInstance
       .put(`/plans/${planData?.postid}/like`)
       .then((res) => {
-        if (res.data == "Post has been unliked") {
+        if (res.data === "Post has been unliked") {
           setPlanData({ ...planData, likes: planData.likes - 1 });
         } else {
           setPlanData({ ...planData, likes: planData.likes + 1 });
@@ -102,6 +111,12 @@ function ViewPlan({ setBackground }) {
       setBackground(false);
     };
   }, []);
+
+  useEffect(() => {
+    if (planData) {
+      console.log(planData);
+    }
+  }, [planData]);
 
   return (
     <ThemeProvider theme={theme}>
