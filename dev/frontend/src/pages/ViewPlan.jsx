@@ -47,43 +47,6 @@ function ViewPlan({ setBackground }) {
   const [loading, setLoading] = useState(true);
   const [planData, setPlanData] = useState(null);
 
-  const getPlanInfo = async (planid) => {
-    try {
-      const res = await axiosInstance.get(`/plans/${planid}`);
-      if (!res.data) {
-        navigate("/*");
-      }
-      if (res.data.planDetails.userid === userInfoContext.userid) {
-        console.log(res.data);
-        setPlanData({
-          author: userInfoContext.username,
-          ...res.data.planDetails,
-          ...res.data,
-        });
-      } else {
-        const userInfoRes = await getUserInfo(res.data.planDetails.userid);
-        setPlanData({
-          author: userInfoRes.data.username,
-          ...res.data.planDetails,
-          ...res.data,
-        });
-      }
-    } catch (err) {
-      Promise.resolve(err.response);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const getUserInfo = async (userid) => {
-    try {
-      const res = await axiosInstance.get(`/users/${userid}`);
-      return res;
-    } catch (err) {
-      Promise.resolve(err.response);
-    }
-  };
-
   const handleLike = () => {
     axiosInstance
       .put(`/plans/${planData?.postid}/like`)
@@ -99,9 +62,27 @@ function ViewPlan({ setBackground }) {
       });
   };
 
+  const getPlanData = () => {
+    axiosInstance
+      .get(`/plans/${planid}/info`)
+      .then((res) => {
+        let result = res.data;
+        if (!result) {
+          navigate("/404");
+        }
+        setPlanData(result);
+      })
+      .catch((err) => {
+        Promise.resolve(err.response);
+      })
+      .then(() => {
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     if (!isNaN(planid)) {
-      getPlanInfo(planid);
+      getPlanData(planid);
     } else {
       navigate("/*");
       setLoading(false);
@@ -125,7 +106,7 @@ function ViewPlan({ setBackground }) {
           {loading ? (
             <Loader />
           ) : (
-            <>
+            <Box mb={theme.spacing(10)}>
               <Box my={theme.spacing(10)}>
                 <Grid container spacing="2">
                   <Grid item xs={12} md={9}>
@@ -173,7 +154,9 @@ function ViewPlan({ setBackground }) {
                         <b>{planData && formatDate(planData.date_created)}</b>
                       </Typography>
                       <Stack direction="row" alignItems="center">
-                        <IconButton onClick={handleLike}>
+                        <IconButton
+                          disabled={!userInfoContext.username}
+                          onClick={handleLike}>
                           <FavoriteBorderIcon />
                         </IconButton>
                         <Typography variant="body1">
@@ -197,7 +180,7 @@ function ViewPlan({ setBackground }) {
                 </Box>
               </Box>
               <ViewPlanContent planData={planData} />
-            </>
+            </Box>
           )}
         </Box>
       </Box>

@@ -17,13 +17,17 @@ const getPlans = asyncHandler(async (req, res) => {
 // @access  Public
 const getPlanById = asyncHandler(async (req, res) => {
   const postid = parseInt(req.params.postid);
-  try{
+  try {
     let { rows: planDetails } = await pool.query(queries.getPlanById, [postid]);
     let { rows: topicids } = await pool.query(queries.getTopicIds, [postid]);
-    let { rows: subtopicids } = await pool.query(queries.getSubtopicIds, [postid]);
+    let { rows: subtopicids } = await pool.query(queries.getSubtopicIds, [
+      postid,
+    ]);
     let plan = {
-      planDetails, topicids, subtopicids
-    }
+      planDetails,
+      topicids,
+      subtopicids,
+    };
     res.status(200).json(plan);
   } catch (e) {
     res.status(500).send("Server error");
@@ -35,34 +39,45 @@ const getPlanById = asyncHandler(async (req, res) => {
 // @access  Public
 const getPlan = asyncHandler(async (req, res) => {
   const postid = parseInt(req.params.postid);
-    
-  try{
+
+  try {
     // Get the plan information
     let { rows: planDetails } = await pool.query(queries.getPlanById, [postid]);
     const { id, userid, post_title, date_created, likes, tag } = planDetails[0];
     // Get the username
-    let { rows: user } = await pool.query(queries.getUserById, [planDetails[0].userid]);
+    let { rows: user } = await pool.query(queries.getUserById, [
+      planDetails[0].userid,
+    ]);
     const author = user[0].username;
 
     let plan = {
-      postid, author, userid, post_title, date_created, likes, tag
+      postid,
+      author,
+      userid,
+      post_title,
+      date_created,
+      likes,
+      tag,
     };
 
-    // Get topic ids 
+    // Get topic ids
     let { rows: alltopicids } = await pool.query(queries.getTopicIds, [postid]);
     // Takes topic as input, returns the value of its topicid
-    let topicids = alltopicids.map(topic => topic.topicid);
-    
+    let topicids = alltopicids.map((topic) => topic.topicid);
+
     let topics = [];
-    for(let x of topicids) {
+    for (let x of topicids) {
       let { rows: topic } = await pool.query(queries.getTopicById, [x, postid]);
       let { topicid, topicpostid, topic_title, content } = topic[0];
-      let { rows: subtopics } = await pool.query(queries.getAllSubtopicsOfTopic, [x]);
+      let { rows: subtopics } = await pool.query(
+        queries.getAllSubtopicsOfTopic,
+        [x]
+      );
       let topicObj = { topicid, postid, topic_title, content, subtopics };
       topics.push(topicObj);
     }
-    
-    plan = {...plan, topics}; // Add topics to plan
+
+    plan = { ...plan, topics }; // Add topics to plan
     res.status(200).json(plan);
   } catch (e) {
     res.status(500).send("Server error");
@@ -149,7 +164,6 @@ const addTopic = asyncHandler(async (req, res) => {
     (error, results) => {
       if (error) throw error;
       res.status(201).send("Topic added successfully");
-      console.log("Topic created");
     }
   );
 });
@@ -170,15 +184,20 @@ const addSubtopic = asyncHandler(async (req, res) => {
   }
   const { subtopic_title, content } = req.body;
 
-  pool.query(
-    queries.addSubtopic,
-    [topicid, subtopic_title, content, postid],
-    (error, results) => {
-      if (error) throw error;
-      res.status(201).send("Subtopic added successfully");
-      console.log("Subtopic created");
-    }
-  );
+  try {
+    pool.query(
+      queries.addSubtopic,
+      [topicid, subtopic_title, content, postid],
+      (error, results) => {
+        if (error) {
+          throw error;
+        }
+        res.status(201).send("Subtopic added successfully");
+      }
+    );
+  } catch (error) {
+    res.status(500).send("Server error");
+  }
 });
 
 // @desc    Like a post
@@ -211,13 +230,15 @@ const likePost = asyncHandler(async (req, res) => {
 const checkLiked = asyncHandler(async (req, res) => {
   const postid = parseInt(req.params.postid);
   let userid = req.session?.userID;
-  
+
   try {
-    const { rows } = await pool.query(queries.hasUserLikedPost, [postid, userid]);
-    if(rows.length  == 0)  {
+    const { rows } = await pool.query(queries.hasUserLikedPost, [
+      postid,
+      userid,
+    ]);
+    if (rows.length == 0) {
       res.status(200).send(false);
-    }
-    else{
+    } else {
       res.status(200).send(true);
     }
   } catch (e) {
@@ -314,8 +335,12 @@ const editSubtopic = asyncHandler(async (req, res) => {
 // @route   GET /api/plans/top-ten
 // @access  Public
 const getTopTen = asyncHandler(async (req, res) => {
-  const { rows } = await pool.query(queries.getTopTen);
-  res.status(200).json(rows);
+  try {
+    const { rows } = await pool.query(queries.getTopTen);
+    res.status(200).json(rows);
+  } catch (e) {
+    res.status(500).send("Server error");
+  }
 });
 
 // @desc    Searches for the specified term in post titles
@@ -325,7 +350,6 @@ const search = asyncHandler(async (req, res) => {
   let { term } = req.body;
   try {
     const { rows } = await pool.query(queries.search, [term]);
-    console.log(term);
     if (rows.length == 0) {
       res.status(204).send("No Results Found");
     } else {
@@ -438,25 +462,25 @@ const deleteTopic = asyncHandler(async (req, res) => {
 // @desc    Deletes a singular subtopic
 // @route   DELETE /api/plans/:postid/:topicid/:subtopicid
 // @access  Public
-const deleteSubtopic= asyncHandler(async (req, res) => {
-   let id = req.session?.userID;
-   // let { id } = req.body;
-   const subtopicid = parseInt(req.params.subtopicid);
-   const postid = parseInt(req.params.postid);
- 
-   const { rows } = await pool.query(queries.getPlanById, [postid]);
-   if (id != rows[0].userid) {
-     // If user is not the author
-     res.status(403).send("No permissions to delete");
-     return;
-   }
- 
-   try {
-     await pool.query(queries.deleteSubtopic, [subtopicid]);
-     res.status(200).json("Subtopic has been deleted");
-   } catch (e) {
-     res.status(500).send("Server error");
-   }
+const deleteSubtopic = asyncHandler(async (req, res) => {
+  let id = req.session?.userID;
+  // let { id } = req.body;
+  const subtopicid = parseInt(req.params.subtopicid);
+  const postid = parseInt(req.params.postid);
+
+  const { rows } = await pool.query(queries.getPlanById, [postid]);
+  if (id != rows[0].userid) {
+    // If user is not the author
+    res.status(403).send("No permissions to delete");
+    return;
+  }
+
+  try {
+    await pool.query(queries.deleteSubtopic, [subtopicid]);
+    res.status(200).json("Subtopic has been deleted");
+  } catch (e) {
+    res.status(500).send("Server error");
+  }
 });
 
 module.exports = {
