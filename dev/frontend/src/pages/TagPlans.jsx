@@ -20,12 +20,10 @@ function TagPlans({ setBackground }) {
       .get(`/plans/${tag}`)
       .then((res) => {
         setPlanList(res.data);
+        setLoading(false);
       })
       .catch((err) => {
         return Promise.resolve(err.body);
-      })
-      .then(() => {
-        setLoading(false);
       });
   };
 

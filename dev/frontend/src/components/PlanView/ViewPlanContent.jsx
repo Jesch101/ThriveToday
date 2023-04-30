@@ -1,54 +1,78 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { theme } from "../../themes/theme";
-import { Box, ThemeProvider, Button, ButtonGroup, Stack } from "@mui/material";
-import axiosInstance from "../../axios";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
-import EditIcon from "@mui/icons-material/Edit";
+import {
+  Box,
+  ThemeProvider,
+  Stack,
+  Typography,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  AccordionActions,
+} from "@mui/material";
 
-const Buttons = () => (
-  <ButtonGroup variant="outlined" size="small">
-    <Button disableRipple>
-      <EditIcon />
-    </Button>
-    <Button disableRipple>
-      <AddIcon />
-    </Button>
-    <Button disableRipple>
-      <RemoveIcon />
-    </Button>
-  </ButtonGroup>
-);
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import UserContext from "../../context/userContext";
+import TopicButtons from "./TopicButtons";
+import SubtopicButtons from "./SubtopicButtons";
+import AddNewTopic from "./AddNewTopic";
 
 function ViewPlanContent({ planData }) {
-  const addTopic = () => {
-    axiosInstance
-      .post(`/plans/create/${planData.postid}/8`, {
-        subtopic_title: "New Sub Topic",
-        content: "New Sub Topic Content",
-      })
-      .then((res) => {
-        console.log("Success");
-      })
-      .catch((err) => {
-        Promise.resolve(err.response);
-      });
-  };
+  const [contentData, setContentData] = useState(planData.topics);
+  const { userInfoContext } = useContext(UserContext);
 
   return (
     <ThemeProvider theme={theme}>
       <Stack direction="column" gap={theme.spacing(2)}>
-        <ButtonGroup variant="outlined" size="small">
-          <Button disableRipple>
-            <EditIcon />
-          </Button>
-          <Button disableRipple>
-            <AddIcon />
-          </Button>
-          <Button disableRipple>
-            <RemoveIcon />
-          </Button>
-        </ButtonGroup>
+        {contentData.length ? (
+          <>
+            {contentData.map((topic, index) => (
+              <Accordion key={index} elevation={4}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <Typography fontSize="1.5rem" fontWeight="500">
+                    {topic.topic_title}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography fontSize="1.3rem">{topic?.content}</Typography>
+                  {topic?.subtopics && (
+                    <Box py={theme.spacing(2)} px={theme.spacing(1)}>
+                      {topic.subtopics.map((subtopic, index) => (
+                        <Accordion key={index} elevation={4}>
+                          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography fontSize="1.3rem" fontWeight="500">
+                              {subtopic?.subtopic_title}
+                            </Typography>
+                          </AccordionSummary>
+                          <AccordionDetails>
+                            <Typography fontSize="1.2rem">
+                              {subtopic?.content}
+                            </Typography>
+                          </AccordionDetails>
+                          {userInfoContext?.userid === planData?.userid ? (
+                            <AccordionActions>
+                              <SubtopicButtons index={index} info={subtopic} />
+                            </AccordionActions>
+                          ) : null}
+                        </Accordion>
+                      ))}
+                    </Box>
+                  )}
+                </AccordionDetails>
+                {userInfoContext?.userid === planData?.userid ? (
+                  <AccordionActions>
+                    <TopicButtons index={index} info={topic} />
+                  </AccordionActions>
+                ) : null}
+              </Accordion>
+            ))}
+          </>
+        ) : (
+          <Box>
+            <Typography>Uh oh! This plan doesn't have any content!</Typography>
+          </Box>
+        )}
+        <AddNewTopic info={contentData[0]} />
       </Stack>
     </ThemeProvider>
   );
