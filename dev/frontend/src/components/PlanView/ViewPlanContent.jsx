@@ -20,7 +20,6 @@ import AddNewTopic from "./AddNewTopic";
 function ViewPlanContent({ planData }) {
   const [contentData, setContentData] = useState(planData.topics);
   const { userInfoContext } = useContext(UserContext);
-  console.log(userInfoContext.userid, planData.userid);
   return (
     <ThemeProvider theme={theme}>
       <Stack direction="column" gap={theme.spacing(2)}>
@@ -73,7 +72,7 @@ function ViewPlanContent({ planData }) {
           </Box>
         )}
         {userInfoContext?.userid === planData?.userid ? (
-          <AddNewTopic info={contentData[0]} />
+          <AddNewTopic info={planData} />
         ) : null}
       </Stack>
     </ThemeProvider>

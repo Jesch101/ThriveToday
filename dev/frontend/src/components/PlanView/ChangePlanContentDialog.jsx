@@ -19,28 +19,29 @@ function ChangePlanContentDialog({
   setSnackbarMessage,
 }) {
   const [content, setContent] = useState(
-    action === "edit" ? info?.topic_title ?? info?.subtopic_title ?? null : ""
+    action === "edit" ? info?.topic_title ?? info?.subtopic_title ?? "" : ""
   );
   const [title, setTitle] = useState(
-    action === "edit" ? info?.topic_title ?? info?.subtopic_title ?? null : ""
+    action === "edit" ? info?.topic_title ?? info?.subtopic_title ?? "" : ""
   );
 
   useEffect(() => {
     setContent(action === "edit" ? info?.content : "");
     setTitle(
-      action === "edit" ? info?.topic_title ?? info?.subtopic_title ?? null : ""
+      action === "edit" ? info?.topic_title ?? info?.subtopic_title ?? "" : ""
     );
   }, [action]);
 
   const handleCancel = () => {
     setContent(action === "add" ? "" : info?.content);
     setTitle(
-      action === "add" ? "" : info?.topic_title || info?.subtopic_title || null
+      action === "add" ? "" : info?.topic_title || info?.subtopic_title || ""
     );
     setOpen(false);
   };
 
   const handleSubmit = () => {
+    console.log(info);
     setOpen(false);
     if (action === "edit") {
       if (info?.topic_title) {

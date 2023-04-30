@@ -8,7 +8,6 @@ function AddNewTopic({ info }) {
   const [action, setAction] = useState("new");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
-
   const handleSnackbarClose = (event, reason) => {
     if (reason === "clickaway") {
       return;

@@ -93,12 +93,6 @@ function ViewPlan({ setBackground }) {
     };
   }, []);
 
-  useEffect(() => {
-    if (planData) {
-      console.log(planData);
-    }
-  }, [planData]);
-
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
