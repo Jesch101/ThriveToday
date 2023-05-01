@@ -41,6 +41,8 @@ with the saved credentials.
 in the top right of the navbar, then click profile, then click the "Add Plan" button. Both of these actions
 will lead you to a create plan form which will redirect you to your newly made plan page. 
 
-**NOTE**: Editing plan page info is currently in the works, along with the popular plans page. 
-This week's new features/progress is the action of creating a new plan and viewing other plans 
-that have been made by other users with ease.
+**NOTE**
+Week 13 new features:
+- Popular Plans page
+- Users can now edit plans by adding topics and subtopics, and editing or deleting them.
+Note: Every time a user adds a new topic or subtopic the page refreshes. This is not a bug.
