@@ -145,7 +145,7 @@ export default function SignUp(props) {
                   required
                   fullWidth
                   name="password"
-                  label="Password"
+                  label="Password (6 characters min)"
                   type="password"
                   id="password"
                   onChange={handleChange}

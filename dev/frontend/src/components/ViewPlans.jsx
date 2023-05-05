@@ -23,26 +23,28 @@ function ViewPlans({ plans }) {
   return (
     <Box>
       <List sx={{ width: "100%" }}>
-        {plans.map((plan, index) => (
-          <Box key={index}>
-            <ListItem>
-              <ListItemButton onClick={() => handlePlanClick(plan.postid)}>
-                <ListItemIcon sx={{ paddingRight: theme.spacing(3) }}>
-                  <Badge badgeContent={plan.likes} color="primary" showZero>
-                    <FavoriteIcon />
-                  </Badge>
-                </ListItemIcon>
-                <ListItemText
-                  primary={plan.post_title}
-                  secondary={`Date created: ${new Date(
-                    plan.date_created
-                  ).toLocaleDateString()}`}
-                />
-              </ListItemButton>
-            </ListItem>
-            {plans[index + 1] !== undefined ? <Divider /> : null}
-          </Box>
-        ))}
+        {plans
+          .sort((a, b) => b.likes - a.likes)
+          .map((plan, index) => (
+            <Box key={index}>
+              <ListItem>
+                <ListItemButton onClick={() => handlePlanClick(plan.postid)}>
+                  <ListItemIcon sx={{ paddingRight: theme.spacing(3) }}>
+                    <Badge badgeContent={plan.likes} color="primary" showZero>
+                      <FavoriteIcon />
+                    </Badge>
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={plan.post_title}
+                    secondary={`Date created: ${new Date(
+                      plan.date_created
+                    ).toLocaleDateString()}`}
+                  />
+                </ListItemButton>
+              </ListItem>
+              {plans[index + 1] !== undefined ? <Divider /> : null}
+            </Box>
+          ))}
       </List>
     </Box>
   );
