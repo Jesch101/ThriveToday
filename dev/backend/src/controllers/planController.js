@@ -347,7 +347,8 @@ const getTopTen = asyncHandler(async (req, res) => {
 // @route   GET /api/plans/search
 // @access  Public
 const search = asyncHandler(async (req, res) => {
-  let { term } = req.body;
+  let { term } = req.query;
+
   try {
     const { rows } = await pool.query(queries.search, [term]);
     if (rows.length == 0) {

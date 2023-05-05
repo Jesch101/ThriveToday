@@ -93,6 +93,15 @@ function ViewPlan({ setBackground }) {
     };
   }, []);
 
+  useEffect(() => {
+    if (!isNaN(planid)) {
+      getPlanData(planid);
+    } else {
+      navigate("/*");
+      setLoading(false);
+    }
+  }, [planid]);
+
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ display: "flex", flexDirection: "column" }}>

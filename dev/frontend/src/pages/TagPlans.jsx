@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Box, ThemeProvider, Typography, IconButton } from "@mui/material";
+import { Box, ThemeProvider, Typography, Stack } from "@mui/material";
 import { theme } from "../themes/theme";
 import { useParams, useNavigate } from "react-router-dom";
 import axiosInstance from "../axios";
 import Loader from "../components/Loader";
 import ViewPlans from "../components/ViewPlans";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import TagPill from "../components/TagPill";
 
 function TagPlans({ setBackground }) {
   const navigate = useNavigate();
   const { tag } = useParams();
   const [loading, setLoading] = useState(true);
   const [planList, setPlanList] = useState(null);
+
+  const tags = ["Mental", "Physical", "Education", "Other"];
 
   const planTag = tag && tag.charAt(0).toUpperCase() + tag.slice(1);
 
@@ -39,12 +41,34 @@ function TagPlans({ setBackground }) {
     };
   }, []);
 
+  useEffect(() => {
+    if (!tag || !["mental", "physical", "education", "other"].includes(tag)) {
+      navigate("/404");
+    } else {
+      getTagPlans();
+    }
+  }, [tag]);
+
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <Box sx={{ margin: "0 auto", width: "80%", flexGrow: "1" }}>
-          <Box my={theme.spacing(10)} display="flex">
-            <Typography variant="h3">{planTag} Plans</Typography>
+          <Box mb={theme.spacing(5)}>
+            <Box pt={theme.spacing(10)}>
+              <Typography variant="h3">{planTag} Plans</Typography>
+              <hr
+                style={{
+                  width: "300px",
+                  border: `2px solid ${theme.palette.primary.main}`,
+                  borderRadius: "7px",
+                }}
+              />
+            </Box>
+            <Stack direction="row" gap={theme.spacing(1)}>
+              {tags.map((tag, index) => (
+                <TagPill tag={tag} key={index} />
+              ))}
+            </Stack>
           </Box>
           {loading ? (
             <Loader />

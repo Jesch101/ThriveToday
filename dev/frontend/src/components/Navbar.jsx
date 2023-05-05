@@ -6,6 +6,8 @@ import {
   styled,
   Menu,
   MenuItem,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { theme } from "../themes/theme";
 import logo from "../assets/logo.svg";
@@ -15,6 +17,7 @@ import UserContext from "../context/userContext";
 import userModel from "../context/userModel";
 import axiosInstance from "../axios";
 import { useNavigate } from "react-router-dom";
+import SearchBar from "./SearchBar";
 
 const NavItem = styled(Typography)`
   text-decoration: none;
@@ -47,6 +50,10 @@ function Navbar() {
   const [username, setUsername] = useState(null);
   const [profileAnchorEl, setProfileAnchorEl] = useState(null);
   const profileOpen = Boolean(profileAnchorEl);
+
+  // Use for later responsive navbar
+  const mediaTheme = useTheme();
+  const matches = useMediaQuery("(min-width:1000px)");
 
   const navigate = useNavigate();
 
@@ -123,21 +130,24 @@ function Navbar() {
                 justifyContent: "center",
                 flex: "1.5",
               }}>
-              <Box px={theme.spacing(5)}>
+              <Box px={theme.spacing(3)}>
                 <Link
                   to="/about"
                   style={{ textDecoration: "none", color: "inherit" }}>
                   <NavItem>About</NavItem>
                 </Link>
               </Box>
-              <Box px={theme.spacing(5)}>
+              <Box px={theme.spacing(3)}>
                 <Link
                   to="/popular-plans"
                   style={{ textDecoration: "none", color: "inherit" }}>
                   <NavItem>Popular Plans</NavItem>
                 </Link>
               </Box>
-              <Box ml="auto" pr={theme.spacing(5)}>
+              <Box px={theme.spacing(3)}>
+                <SearchBar />
+              </Box>
+              <Box ml="auto" pr={theme.spacing(3)}>
                 {username ? (
                   <Box
                     sx={{
