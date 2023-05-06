@@ -4,19 +4,10 @@ import { theme } from "../themes/theme";
 import { Box, ThemeProvider, Typography, Grid, Paper } from "@mui/material";
 import UserContext from "../context/userContext";
 import Loader from "../components/Loader";
-import likedPlans from "../data/fake_likes.json";
 import AddPlanDialogue from "../components/AddPlanDialogue";
 import LikesCard from "../components/LikesCard";
 import PlansCard from "../components/PlansCard";
 import axiosInstance from "../axios";
-
-function totalLikes(planData) {
-  let total = 0;
-  planData.forEach((plan) => {
-    total += plan.likes;
-  });
-  return total;
-}
 
 function Profile({ setBackground }) {
   const { userInfoContext } = useContext(UserContext);
@@ -24,6 +15,8 @@ function Profile({ setBackground }) {
   const [userPlanData, setUserPlanData] = useState(null);
   const [newPlanName, setNewPlanName] = useState(null);
   const [planTag, setPlanTag] = useState("Other");
+  const [totalLikes, setTotalLikes] = useState(0);
+  const [likedPlans, setLikedPlans] = useState(null);
 
   const navigate = useNavigate();
   const currentDate = new Date().toISOString();
@@ -32,7 +25,8 @@ function Profile({ setBackground }) {
     axiosInstance
       .get(`users/${userInfoContext?.userid}/all-plans`)
       .then((res) => {
-        setUserPlanData(res.data);
+        const result = res.data;
+        setUserPlanData(result);
       })
       .catch((err) => {
         Promise.resolve(err.response);
@@ -40,6 +34,21 @@ function Profile({ setBackground }) {
       .then(() => {
         setIsLoading(false);
       });
+  };
+
+  const getUserLikes = () => {
+    let userid = userInfoContext?.userid;
+    if (userid) {
+      axiosInstance
+        .get(`/users/${userid}/likes`)
+        .then((res) => {
+          const result = res.data;
+          setLikedPlans(result);
+        })
+        .catch((err) => {
+          Promise.resolve(err.response);
+        });
+    }
   };
 
   const handleNewPlanNameSubmit = (e) => {
@@ -67,7 +76,18 @@ function Profile({ setBackground }) {
   };
 
   useEffect(() => {
+    if (userPlanData) {
+      let totalUserLikes = userPlanData.reduce(
+        (acc, post) => acc + post.likes,
+        0
+      );
+      setTotalLikes(totalUserLikes);
+    }
+  }, [userPlanData]);
+
+  useEffect(() => {
     getUserPlans();
+    getUserLikes();
     setBackground(true);
     return () => {
       setBackground(false);
@@ -131,9 +151,7 @@ function Profile({ setBackground }) {
                           backgroundColor: "white",
                           color: "black",
                         }}>
-                        <Typography
-                          variant="body1"
-                          color={theme.palette.primary.main}></Typography>
+                        <Typography variant="body1">{totalLikes}</Typography>
                         <Typography variant="body1">Likes</Typography>
                       </Paper>
                     </Box>
@@ -207,7 +225,7 @@ function Profile({ setBackground }) {
                           Liked Plans
                         </Typography>
                       </Box>
-                      <LikesCard likedPlans={likedPlans} />
+                      {likedPlans && <LikesCard likedPlans={likedPlans} />}
                     </Box>
                   </Grid>
                 </Grid>
