@@ -1,2 +1,0 @@
-Currently no easy instructions for end user since the app isn't being 
-hosted on any domain yet. To host locally, check expert_users directory.
