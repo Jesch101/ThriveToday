@@ -16,3 +16,6 @@ Our website is for learners who realize a holistic approach to living a healthy 
 
 # GitHub URL
 https://github.com/Jesch101/ThriveToday
+
+# Project URL 
+https://thrivetoday.netlify.app/
