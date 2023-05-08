@@ -26,6 +26,8 @@ FRONTEND SETUP
 
 4. The React project should open up to your local host http://localhost:3000/ .
 
+Note: double check dev/frontend/src/axios.js to be sure the base url is set to the local host option
+
 
 TESTING THE APPLICATION (Option 1)
 - To test the application, start two terminal instances and run "npm start" in both the frontend 
