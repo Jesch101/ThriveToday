@@ -1,5 +1,7 @@
-Our project is fully hosted and is viewable on: https://thrivetoday.netlify.app/ 
-See below instructions if you would like to host locally. 
+SOME NOTES:
+This project is hosted live at the following URL: https://thrivetoday.netlify.app/
+All of our project features can be tested from that URL.
+Our project can also be built and tested locally. To do so, please continue with the instructions below.
 
 PROJECT SETUP:
 1. Download NodeJS from https://nodejs.org/en/download/ 
@@ -31,6 +33,7 @@ and backend directories and navigate through the website that opens under http:/
 
 TESTING THE APPLICATION (Option 2)
 1. Under directory ThriveToday/dev, run "npm i -g concurrently" (make sure to include -g)
+    (Note: You may need to run "sudo npm i -g concurrently" if you get a permission denied error on mac or linux)
 2. Staying in ThriveToday/dev, run "npm run dev", which will concurrently run the frontend and the backend.
 
 (As of 4/23/23)
