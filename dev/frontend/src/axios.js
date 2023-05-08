@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const baseURL = "http://localhost:8000/api";
-const baseURL = "https://thrivetoday.herokuapp.com/api";
+const baseURL = "http://localhost:8000/api";
+//const baseURL = "https://thrivetoday.herokuapp.com/api";
 
 const axiosInstance = axios.create({
   baseURL: baseURL,
