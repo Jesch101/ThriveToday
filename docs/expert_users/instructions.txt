@@ -1,6 +1,7 @@
 SOME NOTES:
 This project is hosted live at the following URL: https://thrivetoday.netlify.app/
 All of our project features can be tested from that URL.
+Note: please make sure your browser allows ALL cookies, including third party cookies
 Our project can also be built and tested locally. To do so, please continue with the instructions below.
 
 PROJECT SETUP:
