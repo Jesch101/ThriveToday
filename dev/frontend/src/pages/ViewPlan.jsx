@@ -73,6 +73,7 @@ function ViewPlan({ setBackground }) {
         setPlanData(result);
       })
       .catch((err) => {
+        navigate("/404");
         Promise.resolve(err.response);
       })
       .then(() => {
@@ -115,19 +116,19 @@ function ViewPlan({ setBackground }) {
                   <Grid item xs={12} md={9}>
                     <Stack direction="row">
                       <Typography variant="h2" sx={{ fontWeight: "500" }}>
-                        {planData && planData.post_title}
+                        {planData && planData?.post_title}
                       </Typography>
                     </Stack>
-                    <Link to={tagColor(planData.tag)[1]} style={LinkStyles}>
+                    <Link to={tagColor(planData?.tag)[1]} style={LinkStyles}>
                       <Box
                         mt={theme.spacing(1)}
                         sx={{
                           border: "2px solid",
                           borderColor: planData
-                            ? `${tagColor(planData.tag)[0]}`
+                            ? `${tagColor(planData?.tag)[0]}`
                             : "grey",
                           backgroundColor: planData
-                            ? `${tagColor(planData.tag)[0]}`
+                            ? `${tagColor(planData?.tag)[0]}`
                             : "grey",
                           borderRadius: "20px",
                           display: "inline-flex",
@@ -142,7 +143,7 @@ function ViewPlan({ setBackground }) {
                           variant="body1"
                           sx={{ fontWeight: "500" }}
                           px={theme.spacing(1)}>
-                          {planData && planData.tag}
+                          {planData && planData?.tag}
                         </Typography>
                       </Box>
                     </Link>
@@ -150,11 +151,11 @@ function ViewPlan({ setBackground }) {
                   <Grid item xs={12} md={3}>
                     <Box sx={{ display: "flex", flexDirection: "column" }}>
                       <Typography variant="body1">
-                        Created By: <b>{planData && planData.author}</b>
+                        Created By: <b>{planData && planData?.author}</b>
                       </Typography>
                       <Typography variant="body1">
                         Created on:{" "}
-                        <b>{planData && formatDate(planData.date_created)}</b>
+                        <b>{planData && formatDate(planData?.date_created)}</b>
                       </Typography>
                       <Stack direction="row" alignItems="center">
                         <IconButton
@@ -163,7 +164,7 @@ function ViewPlan({ setBackground }) {
                           <FavoriteBorderIcon />
                         </IconButton>
                         <Typography variant="body1">
-                          <b>{planData && planData.likes}</b>
+                          <b>{planData && planData?.likes}</b>
                         </Typography>
                       </Stack>
                     </Box>

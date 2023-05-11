@@ -46,16 +46,13 @@ function ChangePlanContentDialog({
     if (action === "edit") {
       if (info?.topic_title) {
         axiosInstance
-          .patch(
-            `/plans/${info.postid}/${info.topicid}/${info.subtopicid}/edit`,
-            {
-              subtopic_title: title,
-              content: content,
-            }
-          )
+          .patch(`/plans/${info.postid}/${info.topicid}/edit`, {
+            topic_title: title,
+            content: content,
+          })
           .then((res) => {
             window.location.reload();
-            setSnackbarMessage("Subtopic edited");
+            setSnackbarMessage("Topic edited");
             setSnackbarOpen(true);
           })
           .catch((err) => {
